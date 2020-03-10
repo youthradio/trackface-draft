@@ -1,10 +1,10 @@
 <template>
     <div class="ui-container">
         <ul class="tool-list">
-            <li><a class="tool-icon" href="#"><img :src="require('../../public/icons/pencil.png')" /> </a></li>
-            <li><a class="tool-icon" href="#"><img :src="require('../../public/icons/strokebrush.png')" /> </a></li>
-            <li><a class="tool-icon" href="#"><img :src="require('../../public/icons/paintbrush.png')" /> </a></li>
-            <li><a class="tool-icon" href="#"><img :src="require('../../public/icons/sticker.png')" /> </a></li>
+            <li><a class="tool-icon" href="#"><img src="../assets/icons/pencil.png" /> </a></li>
+            <li><a class="tool-icon" href="#"><img src="../assets/icons/strokebrush.png" /> </a></li>
+            <li><a class="tool-icon" href="#"><img src="../assets/icons/paintbrush.png" /> </a></li>
+            <li><a class="tool-icon" href="#"><img src="../assets/icons/sticker.png" /> </a></li>
         </ul>
     </div>
 </template>
