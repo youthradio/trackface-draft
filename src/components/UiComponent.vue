@@ -22,13 +22,13 @@ export default {
   },
   data() {
     return {
-      selectedTool: "",
+      selectedTool: "", //we have the tool's name in our component and could send it to our store
       toolItems: this.toolsData
     }
   },
   methods: {
     setTool() {
-
+      //would this be to send to the store?
     },
   },
   computed: {
