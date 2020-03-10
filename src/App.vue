@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <MainUI :toolsData="toolsData" />
+    <MainUI />
     <Canvas />
     <SavePicture />
   </div>
@@ -21,14 +21,7 @@ export default {
   created() {
     this.$store.dispatch("loadStore");
   },
-  computed: {
-    toolsData() {
-      return this.$store.state.toolsData;
-    },
-    referenceImages() {
-      return this.$store.state.referenceImages;
-    }
-  }
+  computed: {}
 };
 </script>
 
