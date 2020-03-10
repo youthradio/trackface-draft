@@ -4,5 +4,10 @@ export default {
     { name: "Stroke Brush", image: "icons/strokebrush.png" },
     { name: "Sticker", image: "icons/sticker.png" },
     { name: "Brush", image: "icons/paintbrush.png" }
+  ],
+  referenceImages: [
+    { image: "references/dogin.jpg" },
+    { image: "references/dogin.jpg" },
+    { image: "references/dogin.jpg" }
   ]
 };
