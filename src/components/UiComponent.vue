@@ -3,7 +3,7 @@
     <ul class="tool-list">
       <li class="tool-list-item" v-for="tool in toolsData" :key="tool.name">
         <a href="#"
-          ><img class="tool-icon" :src="require(`../assets/${tool.image}`)" />
+          ><img v-on:click="selectedTool = tool.name" v-bind:class="{ toolIconEnabled: selectedTool == tool.name}" class="tool-icon" :src="require(`../assets/${tool.image}`)" />
         </a>
       </li>
     </ul>
@@ -19,6 +19,24 @@ export default {
       required: true,
       default: null
     }
+  },
+  data() {
+    return {
+      selectedTool: "",
+      toolItems: this.toolsData
+    }
+  },
+  methods: {
+    setTool() {
+
+    },
+  },
+  computed: {
+    setToolStyle: function() {
+      return {
+      
+      }
+    } 
   }
 };
 </script>
@@ -30,7 +48,9 @@ export default {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  justify-content: center;
   .tool-icon {
+    transition: 0.1s;
     max-width: 100%;
     height: auto;
     text-align: center;
@@ -40,8 +60,15 @@ export default {
     overflow: hidden;
     border-radius: 50%;
   }
-  .tool-list-item{
-      margin: 0.5rem;
+  .tool-icon:hover {
+    transition: 0.1s;
+    box-shadow: 0px 0px 5px;
+  }
+  .toolIconEnabled {
+    box-shadow: 0px 0px 5px;
+  }
+  .tool-list-item {
+    margin: 0.5rem;
   }
 }
 </style>
