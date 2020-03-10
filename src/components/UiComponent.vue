@@ -40,8 +40,8 @@ export default {
     overflow: hidden;
     border-radius: 50%;
   }
-  .tool-list-item{
-      margin: 0.5rem;
+  .tool-list-item {
+    margin: 0.5rem;
   }
 }
 </style>
