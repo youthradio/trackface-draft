@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Simple Multer Upload Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        form {
+            /* display: flex; */
+            /* flex-direction: column; */
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        async function push(event) {
+            event.preventDefault();
+            console.log("SUBMIT")
+            const formData = new FormData();
+            document.querySelectorAll('input[type=file]').forEach(f => {
+                formData.append(f.name, f.files[0])
+            })
+
+            await fetch('/push', {
+                method: 'POST',
+                body: formData,
+                header: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log('Success:', result);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+    </script>
+    <form onsubmit="push(event)">
+        <div>
+            <label for="file">Reference Image</label>
+            <input type="file" name="referenceimage">
+        </div>
+        <div>
+            <label for="file">Target Image</label>
+            <input type="file" name="targetimage">
+        </div>
+        <input type="submit" value="Upload">
+    </form>
+</body>
+
+</html>
