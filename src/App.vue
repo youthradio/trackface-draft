@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <MainUI />
+    <MainUI :toolsData="toolsData" />
   </div>
 </template>
 
@@ -10,7 +10,15 @@ import MainUI from './components/UiComponent.vue'
 export default {
   name: 'App',
   components: {
-    MainUI
+    MainUI,
+  },
+    created() {
+    this.$store.dispatch('loadStore');
+  },
+  computed:{
+    toolsData(){
+      return this.$store.state.toolsData;
+    }
   }
 }
 </script>
