@@ -3,7 +3,12 @@
     <ul class="tool-list">
       <li class="tool-list-item" v-for="tool in toolsData" :key="tool.name">
         <a href="#"
-          ><img v-on:click="selectedTool = tool.name" v-bind:class="{ toolIconEnabled: selectedTool == tool.name}" class="tool-icon" :src="require(`../assets/${tool.image}`)" />
+          ><img
+            v-on:click="selectedTool = tool.name"
+            v-bind:class="{ toolIconEnabled: selectedTool == tool.name }"
+            class="tool-icon"
+            :src="require(`../assets/${tool.image}`)"
+          />
         </a>
       </li>
     </ul>
@@ -24,19 +29,17 @@ export default {
     return {
       selectedTool: "", //we have the tool's name in our component and could send it to our store
       toolItems: this.toolsData
-    }
+    };
   },
   methods: {
     setTool() {
       //would this be to send to the store?
-    },
+    }
   },
   computed: {
     setToolStyle: function() {
-      return {
-      
-      }
-    } 
+      return {};
+    }
   }
 };
 </script>
