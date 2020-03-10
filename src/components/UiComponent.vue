@@ -2,7 +2,9 @@
   <div class="ui-container">
     <ul class="tool-list">
       <li v-for="tool in toolsData" :key="tool.name">
-        <a href="#"><img class="tool-icon" :src="`${tool.image}`" /> </a>
+        <a href="#"
+          ><img class="tool-icon" :src="require(`../assets/${tool.image}`)" />
+        </a>
       </li>
     </ul>
   </div>
@@ -13,7 +15,7 @@ export default {
   name: "MainUI",
   props: {
     toolsData: {
-      type: Object,
+      type: Array,
       required: true,
       default: null
     }
@@ -32,7 +34,7 @@ export default {
     max-width: 100px;
     height: auto;
     text-align: center;
-    border: 5px solid $white;
+    border: 5px solid $gray;
     border-radius: 100%;
     position: relative;
     overflow: hidden;
