@@ -1,30 +1,29 @@
 <template>
   <div id="app">
     <MainUI :toolsData="toolsData" />
-     <Canvas />
+    <Canvas />
   </div>
 </template>
 
 <script>
-import MainUI from './components/UiComponent.vue'
-import Canvas from './components/Canvas.vue'
+import MainUI from "./components/UiComponent.vue";
+import Canvas from "./components/Canvas.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     MainUI,
     Canvas
   },
-    created() {
-    this.$store.dispatch('loadStore');
+  created() {
+    this.$store.dispatch("loadStore");
   },
-  computed:{
-    toolsData(){
+  computed: {
+    toolsData() {
       return this.$store.state.toolsData;
     }
   }
-}
+};
 </script>
 
-<style>
-</style>
+<style></style>

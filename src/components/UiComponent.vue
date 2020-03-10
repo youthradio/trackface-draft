@@ -1,27 +1,24 @@
 <template>
-    <div class="ui-container">
-        <ul class="tool-list">
-            <li
-                v-for="tool in toolsData"
-                :key="tool.name">
-                <a href="#"><img class="tool-icon" :src="`${tool.image}`" /> 
-                </a>
-                </li>
-        </ul>
-    </div>
+  <div class="ui-container">
+    <ul class="tool-list">
+      <li v-for="tool in toolsData" :key="tool.name">
+        <a href="#"><img class="tool-icon" :src="`${tool.image}`" /> </a>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'MainUI',
-    props: {
-        toolsData:{
-            type:Object,
-            required: true,
-            default: null
-        }
+  name: "MainUI",
+  props: {
+    toolsData: {
+      type: Object,
+      required: true,
+      default: null
+    }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 @import "~@/css/vars";

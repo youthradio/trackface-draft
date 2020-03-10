@@ -1,6 +1,6 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import data from './data';
+import Vue from "vue";
+import Vuex from "vuex";
+import data from "./data";
 
 Vue.use(Vuex);
 
@@ -10,7 +10,7 @@ const state = {
 };
 const actions = {
   loadStore({ commit }) {
-    commit('LOAD_STORE');
+    commit("LOAD_STORE");
   }
 };
 const mutations = {
