@@ -16,6 +16,7 @@ const actions = {
 const mutations = {
   async LOAD_STORE(state) {
     state.toolsData = data.toolsData.slice();
+    state.referenceImages = data.referenceImages.slice();
     state.selectedTool = state.toolsData[0];
   }
 };

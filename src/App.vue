@@ -24,6 +24,9 @@ export default {
   computed: {
     toolsData() {
       return this.$store.state.toolsData;
+    },
+    referenceImages() {
+      return this.$store.state.referenceImages;
     }
   }
 };
