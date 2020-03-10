@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <MainUI />
+    <MainUI :toolsData="toolsData" />
     <Canvas />
     <SavePicture />
   </div>
@@ -12,14 +12,21 @@ import Canvas from './components/Canvas.vue'
 import SavePicture from './components/SavePicture.vue'
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     MainUI,
     Canvas,
     SavePicture
+  },
+  created() {
+    this.$store.dispatch("loadStore");
+  },
+  computed: {
+    toolsData() {
+      return this.$store.state.toolsData;
+    }
   }
-}
+};
 </script>
 
-<style>
-</style>
+<style></style>
