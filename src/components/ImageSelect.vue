@@ -1,19 +1,24 @@
 <template>
-  <div class="image-select-container">
-    <div
-      class="image-select-item"
-      :key="image.name"
-      v-for="image in referenceImages"
-    >
-      <img
-        :class="['img-fluid', 
-        {selectedImage: selectedReferenceImg.name == image.name }]"
-        @click="setSelection(image)"
-        :src="require(`../assets/${image.src}`)"
-      />
+  <div class="image-select-screen">
+    <div class="image-select-container">
+      <div
+        class="image-select-item"
+        :key="image.name"
+        v-for="image in referenceImages"
+      >
+        <img
+          :class="['img-fluid', 
+          {selectedImage: selectedReferenceImg.name == image.name }]"
+          @click="setSelection(image)"
+          :src="require(`../assets/${image.src}`)"
+        />
+      </div>
     </div>
+    <button @click="finishSelection()">Next</button>
   </div>
 </template>
+
+ <!-- line 11 errors out on mount because there is no image to refer to, needs to be applied after load -->
 
 <script>
 export default {
