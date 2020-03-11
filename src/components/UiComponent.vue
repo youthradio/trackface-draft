@@ -2,9 +2,8 @@
   <div class="ui-container">
     <ul class="tool-list">
       <li class="tool-list-item" v-for="tool in toolsData" :key="tool.name">
-        <a href="#"
+        <a href="#" @click.prevent="setTool(tool)"
           ><img
-            @click="setTool(tool)"
             :class="[
               'tool-icon',
               { toolIconEnabled: selectedTool.name == tool.name }
