@@ -3,14 +3,14 @@
     <ImageSelect />
     <MainUI />
     <Canvas />
-    <SavePicture />
+    <BottomUi />
   </div>
 </template>
 
 <script>
 import MainUI from "./components/UiComponent.vue";
 import Canvas from "./components/Canvas.vue";
-import SavePicture from "./components/SavePicture.vue";
+import BottomUi from "./components/BottomUi.vue";
 import ImageSelect from "./components/ImageSelect.vue";
 
 export default {
@@ -18,7 +18,7 @@ export default {
   components: {
     MainUI,
     Canvas,
-    SavePicture,
+    BottomUi,
     ImageSelect
   },
   created() {
