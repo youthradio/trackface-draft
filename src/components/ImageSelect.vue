@@ -6,7 +6,8 @@
       v-for="image in referenceImages"
     >
       <img
-        class="img-fluid"
+        :class="['img-fluid', 
+        {selectedImage: selectedReferenceImg.name == image.name }]"
         @click="setSelection(image)"
         :src="require(`../assets/${image.src}`)"
       />
@@ -47,6 +48,19 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "~@/css/vars";
+.image-select-container {
+  display: flex;
+  flex-direction: row;
+}
+.image-select-item {
+  flex: 2;
+  padding: 0.4rem;
+}
+.selectedImage::after {
+  content: "test";
+  position: relative;
+  left: 0;
+}
 .img-fluid {
   width: 100%;
   height: auto;
