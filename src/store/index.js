@@ -9,6 +9,11 @@ const state = {
     selectedTool: null,
     selectedReferenceImg: null
   },
+  timeline: {
+    imageSelect: false,
+    draw: false,
+    result: false
+  },
   toolsData: null,
   referenceImages: null
 };

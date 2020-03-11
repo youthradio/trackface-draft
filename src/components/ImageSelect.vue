@@ -31,6 +31,9 @@ export default {
       this.$store.dispatch("setUIState", {
         selectedReferenceImg: this.selectedReferenceImg
       });
+    },
+    finishSelection() {
+      this.$store.state.timeline.imageSelect = true;
     }
   },
   mounted() {
