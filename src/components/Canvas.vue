@@ -1,6 +1,12 @@
 <template>
-  <div ref="blah" class="canvas-root">
-    <canvas ref="canvas" id="cameraElement"></canvas>
+  <div ref="container" class="canvas-root">
+    <canvas
+      @mousedown="mouseEvent"
+      @mouseup="mouseEvent"
+      @mousemove="mouseEvent"
+      ref="canvas"
+      id="cameraElement"
+    ></canvas>
   </div>
 </template>
 
@@ -8,8 +14,12 @@
 export default {
   name: "Canvas",
   props: {},
-  date() {
+  data() {
     return {
+      isDrawing: false,
+      historyPointer: -1,
+      pointsHistory: [],
+      penSet: false,
       ctx: null
     };
   },
@@ -22,6 +32,36 @@ export default {
     }
   },
   methods: {
+    mouseEvent(event) {
+      console.log(event);
+      if (event.type === "mouseup") {
+        this.isDrawing = false;
+      } else if (event.type === "mousedown") {
+        this.historyPointer++;
+        this.isDrawing = true;
+        this.penSet = false;
+      }
+      if (this.isDrawing) {
+        if (this.pointsHistory[this.historyPointer] === undefined)
+          this.pointsHistory.push([]);
+
+        this.pointsHistory[this.historyPointer].push([
+          event.layerX,
+          event.layerY
+        ]);
+        this.draw();
+      }
+    },
+    draw() {
+      const points = this.pointsHistory[this.historyPointer];
+      const pos = points.length - 1;
+      if (!this.penSet) {
+        this.penSet = true;
+        this.ctx.moveTo(points[pos][0], points[pos][1]);
+      }
+      this.ctx.lineTo(points[pos][0], points[pos][1]);
+      this.ctx.stroke();
+    },
     async loadReferenceImage() {
       const imgData = require(`../assets/${this.UIState.selectedReferenceImg.src}`);
       const img = new Image();
@@ -48,10 +88,11 @@ export default {
   },
   mounted() {
     this.canvas = this.$refs.canvas;
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerWidth;
+    this.canvas.width = this.canvas.height = this.$refs.container.clientWidth;
 
     this.ctx = this.canvas.getContext("2d");
+    this.ctx.lineWidth = 10;
+    this.ctx.lineJoin = this.ctx.lineCap = "round";
     this.updateReferenceImage();
   }
 };
