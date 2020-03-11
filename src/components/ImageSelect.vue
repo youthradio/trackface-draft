@@ -38,7 +38,10 @@ export default {
       });
     },
     finishSelection() {
-      this.$store.state.timeline.imageSelect = true;
+      this.timeline.imageSelect = true;
+      this.$store.dispatch("setTimelineState", {
+        imageSelect: true
+      });
     }
   },
   mounted() {
@@ -50,6 +53,9 @@ export default {
     },
     UIState() {
       return this.$store.state.UIState;
+    },
+    timeline() {
+      return this.$store.state.timeline;
     }
   }
 };

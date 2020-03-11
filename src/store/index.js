@@ -10,7 +10,7 @@ const state = {
     selectedReferenceImg: null
   },
   timeline: {
-    imageSelect: false,
+    imageSelect: false, //when image is selected, 
     draw: false,
     result: false
   },
@@ -24,6 +24,10 @@ const actions = {
   setUIState({ commit }, newstate) {
     console.log("SSSS", newstate);
     commit("SET_UISTATE", newstate);
+  },
+  setTimelineState({ commit }, newstate) {
+    console.log("TIMELINE FOR ", newstate);
+    commit("SET_TIMELINESTATE", newstate);
   }
 };
 const mutations = {
@@ -35,6 +39,9 @@ const mutations = {
   },
   async SET_UISTATE(state, newstate) {
     state.UIState = Object.assign(state.UIState, newstate);
+  },
+  async SET_TIMELINESTATE(state, newstate) {
+    state.timeline = Object.assign(state.timeline, newstate);
   }
 };
 export default new Vuex.Store({
