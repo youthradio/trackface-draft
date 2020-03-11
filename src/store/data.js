@@ -6,8 +6,8 @@ export default {
     { name: "Brush", image: "icons/paintbrush.png" }
   ],
   referenceImages: [
-    { image: "references/dogin.jpg" },
-    { image: "references/dogin.jpg" },
-    { image: "references/dogin.jpg" }
+    { name: "A", src: "references/image1.jpg" },
+    { name: "B", src: "references/image2.jpg" },
+    { name: "C", src: "references/image3.jpg" }
   ]
 };

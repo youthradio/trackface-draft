@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     async loadReferenceImage() {
-      const imgData = require(`../assets/${this.UIState.selectedReferenceImage.image}`);
+      const imgData = require(`../assets/${this.UIState.selectedReferenceImg.src}`);
       const img = new Image();
       return await new Promise((resolve, reject) => {
         img.onload = () => resolve(img);

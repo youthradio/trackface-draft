@@ -7,7 +7,7 @@ Vue.use(Vuex);
 const state = {
   UIState: {
     selectedTool: null,
-    selectedReferenceImage: null
+    selectedReferenceImg: null
   },
   toolsData: null,
   referenceImages: null
@@ -26,7 +26,7 @@ const mutations = {
     state.toolsData = data.toolsData.slice();
     state.referenceImages = data.referenceImages.slice();
     state.UIState.selectedTool = state.toolsData[0];
-    state.UIState.selectedReferenceImage = state.referenceImages[0];
+    state.UIState.selectedReferenceImg = state.referenceImages[0];
   },
   async SET_UISTATE(state, newstate) {
     state.UIState = Object.assign(state.UIState, newstate);

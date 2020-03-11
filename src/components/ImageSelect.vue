@@ -1,7 +1,15 @@
 <template>
   <div class="image-select-container">
-    <div class="image-select-item" :key="pic.src" v-for="pic in pictureBase">
-        <img class="image-select-src" :src="pic.src" />
+    <div
+      class="image-select-item"
+      :key="image.name"
+      v-for="image in referenceImages"
+    >
+      <img
+        class="img-fluid"
+        @click="setSelection(image)"
+        :src="require(`../assets/${image.src}`)"
+      />
     </div>
   </div>
 </template>
@@ -12,28 +20,35 @@ export default {
   props: {},
   data() {
     return {
-        selectedPicture: "",
-        pictureBase: [
-            {src: 'https://picsum.photos/200'},
-            {src: 'https://picsum.photos/200'},
-            {src: "https://picsum.photos/200"},
-            {src: "https://picsum.photos/200"},
-            {src: 'https://picsum.photos/200'},
-            {src: 'https://picsum.photos/200'},
-            {src: "https://picsum.photos/200"},
-            {src: "https://picsum.photos/200"}
-            ],
+      selectedReferenceImg: null,
+      pictureBase: []
     };
   },
-  methods: {},
-  computed: {}
+  methods: {
+    setSelection(image) {
+      this.selectedReferenceImg = image;
+      this.$store.dispatch("setUIState", {
+        selectedReferenceImg: this.selectedReferenceImg
+      });
+    }
+  },
+  mounted() {
+    this.selectedReferenceImg = this.UIState.selectedReferenceImg;
+  },
+  computed: {
+    referenceImages() {
+      return this.$store.state.referenceImages;
+    },
+    UIState() {
+      return this.$store.state.UIState;
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
 @import "~@/css/vars";
-.image-select-container{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+.img-fluid {
+  width: 100%;
+  height: auto;
 }
 </style>
