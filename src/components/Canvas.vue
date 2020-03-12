@@ -1,6 +1,7 @@
 <template>
   <div ref="container" class="canvas-root">
     <canvas
+      tabindex="0"
       @mousedown="mouseEvent"
       @mouseup="mouseEvent"
       @mousemove="mouseEvent"
@@ -18,9 +19,12 @@ export default {
     return {
       isDrawing: false,
       historyPointer: -1,
-      pointsHistory: [],
+      history: {
+        points: []
+      },
       penSet: false,
-      ctx: null
+      main: { canvas: null, ctx: null },
+      layer: { canvas: null, ctx: null }
     };
   },
   computed: {
@@ -31,9 +35,37 @@ export default {
       return this.$store.state.UIState;
     }
   },
+  watch: {
+    UIState: {
+      handler() {
+        // // this.layer.ctx.strokeStyle = "#FF0000";
+        // // this.layer.ctx.fillStyle = "#FF0000";
+        // // this.layer.ctx.rect(10, 20, 150, 100);
+        // // this.layer.ctx.fill();
+        this.clearCanvas();
+        this.updateReferenceImage();
+      },
+      deep: true
+    }
+  },
   methods: {
+    clearCanvas() {
+      this.$set(this.history, "points", []);
+      this.historyPointer = -1;
+      this.layer.ctx.clearRect(
+        0,
+        0,
+        this.layer.canvas.width,
+        this.layer.canvas.height
+      );
+      this.main.ctx.clearRect(
+        0,
+        0,
+        this.main.canvas.width,
+        this.main.canvas.height
+      );
+    },
     mouseEvent(event) {
-      console.log(event);
       if (event.type === "mouseup") {
         this.isDrawing = false;
       } else if (event.type === "mousedown") {
@@ -42,25 +74,31 @@ export default {
         this.penSet = false;
       }
       if (this.isDrawing) {
-        if (this.pointsHistory[this.historyPointer] === undefined)
-          this.pointsHistory.push([]);
-
-        this.pointsHistory[this.historyPointer].push([
-          event.layerX,
-          event.layerY
-        ]);
+        // usint this.$set because vue is not reactivy for array updates
+        if (this.history.points[this.historyPointer] === undefined) {
+          this.$set(this.history.points, this.historyPointer, []);
+        }
+        const currPoints = this.history.points[this.historyPointer];
+        this.$set(
+          this.history.points,
+          this.historyPointer,
+          currPoints.concat([[event.layerX, event.layerY]])
+        );
+        // console.log("DRAW", this.history.points);
         this.draw();
       }
     },
     draw() {
-      const points = this.pointsHistory[this.historyPointer];
+      const points = this.history.points[this.historyPointer];
       const pos = points.length - 1;
       if (!this.penSet) {
         this.penSet = true;
-        this.ctx.moveTo(points[pos][0], points[pos][1]);
+        this.layer.ctx.beginPath();
+        this.layer.ctx.moveTo(points[pos][0], points[pos][1]);
       }
-      this.ctx.lineTo(points[pos][0], points[pos][1]);
-      this.ctx.stroke();
+      this.layer.ctx.lineTo(points[pos][0], points[pos][1]);
+      this.layer.ctx.stroke();
+      this.main.ctx.drawImage(this.layer.canvas, 0, 0);
     },
     async loadReferenceImage() {
       const imgData = require(`../assets/${this.UIState.selectedReferenceImg.src}`);
@@ -73,7 +111,7 @@ export default {
     },
     async updateReferenceImage() {
       const img = await this.loadReferenceImage();
-      this.ctx.drawImage(
+      this.main.ctx.drawImage(
         img,
         0,
         0,
@@ -81,18 +119,30 @@ export default {
         img.height,
         0,
         0,
-        this.canvas.width,
-        img.height * (this.canvas.width / img.width)
+        this.main.canvas.width,
+        img.height * (this.main.canvas.width / img.width)
       );
     }
   },
   mounted() {
-    this.canvas = this.$refs.canvas;
-    this.canvas.width = this.canvas.height = this.$refs.container.clientWidth;
+    document.addEventListener("mouseup", this.mouseEvent);
 
-    this.ctx = this.canvas.getContext("2d");
-    this.ctx.lineWidth = 10;
-    this.ctx.lineJoin = this.ctx.lineCap = "round";
+    document.addEventListener("keydown", event => {
+      if (event.code === "KeyZ" && (event.ctrlKey || event.metaKey)) {
+        this.clearCanvas();
+      }
+    });
+    //main
+    this.main.canvas = this.$refs.canvas;
+    this.main.canvas.width = this.main.canvas.height = this.$refs.container.clientWidth;
+    this.main.ctx = this.main.canvas.getContext("2d");
+    //layer
+    this.layer.canvas = document.createElement("canvas");
+    this.layer.canvas.width = this.layer.canvas.height = this.main.canvas.width;
+    this.layer.ctx = this.layer.canvas.getContext("2d");
+
+    this.layer.ctx.lineWidth = 10;
+    this.layer.ctx.lineJoin = this.layer.ctx.lineCap = "round";
     this.updateReferenceImage();
   }
 };

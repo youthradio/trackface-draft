@@ -2,23 +2,26 @@
   <div class="image-select-screen">
     <div class="image-select-container">
       <div
-        class="image-select-item"
+        :class="[
+          'image-select-item',
+          {
+            selected:
+              selectedReferenceImg && selectedReferenceImg.name === image.name
+          }
+        ]"
         :key="image.name"
         v-for="image in referenceImages"
       >
-        <img
-          :class="['img-fluid', 
-          {selectedImage: selectedReferenceImg.name == image.name }]"
-          @click="setSelection(image)"
-          :src="require(`../assets/${image.src}`)"
-        />
+        <a tabindex="0" href="#" @click.prevent="setSelection(image)">
+          <img class="img-fluid" :src="require(`../assets/${image.src}`)" />
+        </a>
       </div>
     </div>
     <button @click="finishSelection()">Next</button>
   </div>
 </template>
 
- <!-- line 11 errors out on mount because there is no image to refer to, needs to be applied after load -->
+<!-- line 11 errors out on mount because there is no image to refer to, needs to be applied after load -->
 
 <script>
 export default {
@@ -36,12 +39,10 @@ export default {
       this.$store.dispatch("setUIState", {
         selectedReferenceImg: this.selectedReferenceImg
       });
+      this.$store.dispatch("setProgressState", "canvasDrawing");
     },
     finishSelection() {
       this.timeline.imageSelect = true;
-      this.$store.dispatch("setTimelineState", {
-        imageSelect: true
-      });
     }
   },
   mounted() {
@@ -67,13 +68,19 @@ export default {
   flex-direction: row;
 }
 .image-select-item {
-  flex: 2;
-  padding: 0.4rem;
-}
-.selectedImage::after {
-  content: "test";
   position: relative;
+  flex: 2;
+  // padding: 0.4rem;
+}
+.selected::after {
+  content: "dsdsd";
+  position: absolute;
+  top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 20%;
+  background-color: red;
 }
 .img-fluid {
   width: 100%;

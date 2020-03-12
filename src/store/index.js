@@ -9,11 +9,7 @@ const state = {
     selectedTool: null,
     selectedReferenceImg: null
   },
-  timeline: {
-    imageSelect: false, //when image is selected, 
-    draw: false,
-    result: false
-  },
+  progress: null,
   toolsData: null,
   referenceImages: null
 };
@@ -22,12 +18,10 @@ const actions = {
     commit("LOAD_STORE");
   },
   setUIState({ commit }, newstate) {
-    console.log("SSSS", newstate);
     commit("SET_UISTATE", newstate);
   },
-  setTimelineState({ commit }, newstate) {
-    console.log("TIMELINE FOR ", newstate);
-    commit("SET_TIMELINESTATE", newstate);
+  setProgressState({ commit }, newstate) {
+    commit("SET_PROGSTATE", newstate);
   }
 };
 const mutations = {
@@ -36,12 +30,13 @@ const mutations = {
     state.referenceImages = data.referenceImages.slice();
     state.UIState.selectedTool = state.toolsData[0];
     state.UIState.selectedReferenceImg = state.referenceImages[0];
+    state.progresss = "imageSelection";
   },
   async SET_UISTATE(state, newstate) {
     state.UIState = Object.assign(state.UIState, newstate);
   },
-  async SET_TIMELINESTATE(state, newstate) {
-    state.timeline = Object.assign(state.timeline, newstate);
+  async SET_PROGSTATE(state, newstate) {
+    state.progress = newstate;
   }
 };
 export default new Vuex.Store({
