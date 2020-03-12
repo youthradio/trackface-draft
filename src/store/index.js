@@ -7,7 +7,8 @@ Vue.use(Vuex);
 const state = {
   UIState: {
     selectedTool: null,
-    selectedReferenceImg: null
+    selectedReferenceImg: null,
+    selectedAction: null
   },
   progress: null,
   toolsData: null,
@@ -28,6 +29,7 @@ const mutations = {
   async LOAD_STORE(state) {
     state.toolsData = data.toolsData.slice();
     state.referenceImages = data.referenceImages.slice();
+    state.UIState.selectedAction = "none";
     state.UIState.selectedTool = state.toolsData[0];
     state.UIState.selectedReferenceImg = state.referenceImages[0];
     state.progresss = "imageSelection";

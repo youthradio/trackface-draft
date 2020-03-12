@@ -24,7 +24,8 @@ export default {
       },
       penSet: false,
       main: { canvas: null, ctx: null },
-      layer: { canvas: null, ctx: null }
+      layer: { canvas: null, ctx: null },
+      currRefImg: null
     };
   },
   computed: {
@@ -36,19 +37,87 @@ export default {
     }
   },
   watch: {
-    UIState: {
+    "UIState.selectedReferenceImg": function() {
+      this.clearCanvas();
+      this.updateReferenceImage();
+    },
+    "UIState.selectedTool": function(action) {
+      console.log(action);
+    },
+    "UIState.selectedAction": function(action) {
+      console.log(action);
+      if (action === "undo") {
+        this.rollBack();
+        this.$store.dispatch("setUIState", {
+          selectedAction: "clear"
+        });
+      }
+    },
+    //     state.UIState.selectedAction = "none";
+    // state.UIState.selectedTool = state.toolsData[0];
+    // state.UIState.selectedReferenceImg = state.referenceImages[0];
+    // UIState: {
+    //   handler(val, oldVal) {
+    //     // // this.layer.ctx.strokeStyle = "#FF0000";
+    //     // // this.layer.ctx.fillStyle = "#FF0000";
+    //     // // this.layer.ctx.rect(10, 20, 150, 100);
+    //     // // this.layer.ctx.fill();
+
+    //     console.log(val, oldVal);
+    //     // this.clearCanvas();
+    //     // this.updateReferenceImage();
+    //   },
+    //   deep: true
+    // },
+    history: {
       handler() {
-        // // this.layer.ctx.strokeStyle = "#FF0000";
-        // // this.layer.ctx.fillStyle = "#FF0000";
-        // // this.layer.ctx.rect(10, 20, 150, 100);
-        // // this.layer.ctx.fill();
-        this.clearCanvas();
-        this.updateReferenceImage();
+        console.log("POINTs");
       },
       deep: true
     }
   },
   methods: {
+    rollBack() {
+      if (!this.history.points.length) {
+        console.log("RETUNR");
+        return;
+      }
+      //clear layer
+      this.layer.ctx.clearRect(
+        0,
+        0,
+        this.layer.canvas.width,
+        this.layer.canvas.height
+      );
+      this.history.points.pop();
+      // this.$set(this.history, "points", );
+
+      this.history.points.forEach(points => {
+        points.forEach((point, i) => {
+          if (i <= 0) {
+            this.layer.ctx.beginPath();
+            this.layer.ctx.moveTo(point[0], point[1]);
+          }
+          this.layer.ctx.lineTo(point[0], point[1]);
+          this.layer.ctx.stroke();
+        });
+      });
+      this.main.ctx.drawImage(
+        this.currRefImg,
+        0,
+        0,
+        this.currRefImg.width,
+        this.currRefImg.height,
+        0,
+        0,
+        this.main.canvas.width,
+        this.currRefImg.height *
+          (this.main.canvas.width / this.currRefImg.width)
+      );
+
+      this.main.ctx.drawImage(this.layer.canvas, 0, 0);
+    },
+
     clearCanvas() {
       this.$set(this.history, "points", []);
       this.historyPointer = -1;
@@ -110,17 +179,18 @@ export default {
       });
     },
     async updateReferenceImage() {
-      const img = await this.loadReferenceImage();
+      this.currRefImg = await this.loadReferenceImage();
       this.main.ctx.drawImage(
-        img,
+        this.currRefImg,
         0,
         0,
-        img.width,
-        img.height,
+        this.currRefImg.width,
+        this.currRefImg.height,
         0,
         0,
         this.main.canvas.width,
-        img.height * (this.main.canvas.width / img.width)
+        this.currRefImg.height *
+          (this.main.canvas.width / this.currRefImg.width)
       );
     }
   },
@@ -129,7 +199,7 @@ export default {
 
     document.addEventListener("keydown", event => {
       if (event.code === "KeyZ" && (event.ctrlKey || event.metaKey)) {
-        this.clearCanvas();
+        this.rollBack();
       }
     });
     //main

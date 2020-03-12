@@ -1,13 +1,21 @@
 <template>
   <div class="save-button-root">
-    Save
+    <button @click="setActionState('undo')">UNDO</button>
+    <button @click="setActionState('test')">TEST</button>
   </div>
 </template>
 
 <script>
 export default {
   name: "SavePicture",
-  props: {}
+  props: {},
+  methods: {
+    setActionState(state) {
+      this.$store.dispatch("setUIState", {
+        selectedAction: state
+      });
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
