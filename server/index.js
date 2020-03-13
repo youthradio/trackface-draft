@@ -4,6 +4,7 @@ const multer = require("multer");
 const mime = require("mime");
 const memStorage = multer.memoryStorage();
 const AWSFaceRecognition = require("./awsFaceRekognition");
+const cors = require("cors");
 
 // var storage = multer.diskStorage({
 //   destination: function(req, file, cb) {
@@ -14,7 +15,12 @@ const AWSFaceRecognition = require("./awsFaceRekognition");
 //     cb(null, `${file.fieldname}-${uniqueSuffix}.${mime.getExtension(file.mimetype)}`);
 //   }
 // });
-
+const corsOptions = {
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
 const upload = multer({
   storage: memStorage,
   limits: {
@@ -43,29 +49,37 @@ const upload = multer({
 ]);
 
 const app = express();
+app.use(cors(corsOptions));
+
 const faceReg = new AWSFaceRecognition();
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-app.post("/push", (req, res, next) => {
-  upload(req, res, async err => {
-    if (err) {
-      return res.status(500).send({ error: err.stack });
-    }
-    if (!("referenceimage" in req.files) || !("targetimage" in req.files)) {
-      const err = new Error("Error: Need two input files");
-      res.status(500).send({ error: err.stack });
-      return next(err);
-    }
-    const results = await faceReg.compareFaces(
-      req.files.referenceimage[0].buffer,
-      req.files.targetimage[0].buffer
-    );
-    return res.json(results);
-  });
-});
+app.post("/push", async (req, res, next) =>
+  new Promise((resolve, reject) => {
+    upload(req, res, async err => {
+      if (err) {
+        return res.status(500).send({ error: err.stack });
+      }
+      if (!("referenceimage" in req.files) || !("targetimage" in req.files)) {
+        const err = new Error("Error: Need two input files");
+        res.status(500).send({ error: err.stack });
+        return reject(err);
+      }
+      const results = await faceReg.compareFaces(
+        req.files.referenceimage[0].buffer,
+        req.files.targetimage[0].buffer
+      );
+      resolve(results);
+    });
+  })
+    .then(results => {
+      res.json(results);
+    })
+    .catch(err => next(err))
+);
 
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
