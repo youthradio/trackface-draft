@@ -25,7 +25,8 @@ export default {
       penSet: false,
       main: { canvas: null, ctx: null },
       layer: { canvas: null, ctx: null },
-      currRefImg: null
+      currRefImg: null,
+      currRefImgBlob: null
     };
   },
   computed: {
@@ -48,6 +49,11 @@ export default {
       console.log(action);
       if (action === "undo") {
         this.rollBack();
+        this.$store.dispatch("setUIState", {
+          selectedAction: "clear"
+        });
+      } else if (action === "test-image") {
+        this.testImages();
         this.$store.dispatch("setUIState", {
           selectedAction: "clear"
         });
@@ -77,6 +83,47 @@ export default {
     }
   },
   methods: {
+    dataURLtoBlob(dataurl) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new Blob([u8arr], { type: mime });
+    },
+    testImages() {
+      const targetImageURL = this.main.canvas.toDataURL("image/jpeg", 1.0);
+      return fetch(targetImageURL)
+        .then(res => res.blob())
+        .then(targetBlob => {
+          console.log(targetBlob);
+          const formData = new FormData();
+
+          formData.append("referenceimage", this.currRefImgBlob, "refimg.jpg");
+          formData.append("targetimage", targetBlob, "targetimg.jpg");
+          console.log(formData);
+
+          console.log("TESTING");
+          return fetch("http://localhost:8000/push", {
+            method: "POST",
+            body: formData,
+            header: {
+              // Accept: "application/json",
+              // "Content-Type": "multipart/form-data"
+            }
+          })
+            .then(res => res.json())
+            .then(result => {
+              console.log("Success:", result);
+            })
+            .catch(error => {
+              console.error("Error:", error);
+            });
+        });
+    },
     rollBack() {
       if (!this.history.points.length) {
         console.log("RETUNR");
@@ -171,11 +218,17 @@ export default {
     },
     async loadReferenceImage() {
       const imgData = require(`../assets/${this.UIState.selectedReferenceImg.src}`);
-      const img = new Image();
-      return await new Promise((resolve, reject) => {
-        img.onload = () => resolve(img);
-        img.onerror = reject;
-        img.src = imgData;
+      return new Promise((resolve, reject) => {
+        return fetch(imgData)
+          .then(res => res.blob())
+          .then(blob => {
+            this.currRefImgBlob = blob;
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            const url = URL.createObjectURL(blob);
+            img.src = url;
+          });
       });
     },
     async updateReferenceImage() {

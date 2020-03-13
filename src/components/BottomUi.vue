@@ -1,7 +1,7 @@
 <template>
   <div class="save-button-root">
     <button @click="setActionState('undo')">UNDO</button>
-    <button @click="setActionState('test')">TEST</button>
+    <button @click="setActionState('test-image')">TEST</button>
   </div>
 </template>
 
