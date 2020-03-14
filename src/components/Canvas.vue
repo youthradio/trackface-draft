@@ -2,12 +2,21 @@
   <div ref="container" class="canvas-root">
     <canvas
       tabindex="0"
-      @mousedown="mouseEvent"
-      @mouseup="mouseEvent"
-      @mousemove="mouseEvent"
+      @touchstart.prevent="mouseEvent"
+      @touchend.prevent="mouseEvent"
+      @touchmove.prevent="mouseEvent"
+      @mousedonw.prevent="mouseEvent"
+      @mousedown.prevent="mouseEvent"
+      @mouseup.prevent="mouseEvent"
+      @mousemove.prevent="mouseEvent"
       ref="canvas"
       id="cameraElement"
     ></canvas>
+    <h2 v-if="testResult.loading">LOADING</h2>
+    <h3 v-if="testResult.error">{{ testResult.error }}</h3>
+    <h3 v-if="testResult.result">
+      {{ JSON.stringify(testResult.result, null, 2) }}
+    </h3>
   </div>
 </template>
 
@@ -35,6 +44,9 @@ export default {
     },
     UIState() {
       return this.$store.state.UIState;
+    },
+    testResult() {
+      return this.$store.state.testResult;
     }
   },
   watch: {
@@ -96,6 +108,9 @@ export default {
     },
     testImages() {
       const targetImageURL = this.main.canvas.toDataURL("image/jpeg", 1.0);
+      this.$store.dispatch("setResultState", {
+        loading: true
+      });
       return fetch(targetImageURL)
         .then(res => res.blob())
         .then(targetBlob => {
@@ -111,16 +126,23 @@ export default {
             method: "POST",
             body: formData,
             header: {
-              // Accept: "application/json",
-              // "Content-Type": "multipart/form-data"
+              "Content-Type": "multipart/form-data"
             }
           })
             .then(res => res.json())
             .then(result => {
-              console.log("Success:", result);
+              this.$store.dispatch("setResultState", {
+                loading: false,
+                result: result,
+                error: null
+              });
             })
             .catch(error => {
-              console.error("Error:", error);
+              this.$store.dispatch("setResultState", {
+                loading: false,
+                result: null,
+                error: error
+              });
             });
         });
     },
@@ -182,14 +204,27 @@ export default {
       );
     },
     mouseEvent(event) {
-      if (event.type === "mouseup") {
+      event.preventDefault();
+      const eventType = event.type;
+      if (eventType === "mouseup" || eventType === "touchend") {
         this.isDrawing = false;
-      } else if (event.type === "mousedown") {
+      } else if (eventType === "mousedown" || eventType === "touchstart") {
         this.historyPointer++;
         this.isDrawing = true;
         this.penSet = false;
-      }
-      if (this.isDrawing) {
+      } else if (
+        (eventType === "mousemove" || eventType === "touchmove") &&
+        this.isDrawing
+      ) {
+        const rect = event.target.getBoundingClientRect();
+        // const bodyRect = document.body.getBoundingClientRect();/
+        const posx =
+          (event.pageX || event.touches[0].pageX) -
+          (rect.left + document.documentElement.scrollLeft);
+        const posy =
+          (event.pageY || event.touches[0].pageY) -
+          (rect.top + document.documentElement.scrollTop);
+
         // usint this.$set because vue is not reactivy for array updates
         if (this.history.points[this.historyPointer] === undefined) {
           this.$set(this.history.points, this.historyPointer, []);
@@ -198,7 +233,7 @@ export default {
         this.$set(
           this.history.points,
           this.historyPointer,
-          currPoints.concat([[event.layerX, event.layerY]])
+          currPoints.concat([[posx, posy]])
         );
         // console.log("DRAW", this.history.points);
         this.draw();
@@ -274,5 +309,6 @@ export default {
 canvas {
   width: 100%;
   height: auto;
+  // touch-action: none;
 }
 </style>

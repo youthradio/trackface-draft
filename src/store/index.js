@@ -12,7 +12,12 @@ const state = {
   },
   progress: null,
   toolsData: null,
-  referenceImages: null
+  referenceImages: null,
+  testResult: {
+    loading: null,
+    result: null,
+    error: null
+  }
 };
 const actions = {
   loadStore({ commit }) {
@@ -23,6 +28,9 @@ const actions = {
   },
   setProgressState({ commit }, newstate) {
     commit("SET_PROGSTATE", newstate);
+  },
+  setResultState({ commit }, newstate) {
+    commit("SET_RESULT", newstate);
   }
 };
 const mutations = {
@@ -33,12 +41,16 @@ const mutations = {
     state.UIState.selectedTool = state.toolsData[0];
     state.UIState.selectedReferenceImg = state.referenceImages[0];
     state.progresss = "imageSelection";
+    state.testResult.loading = false;
   },
   async SET_UISTATE(state, newstate) {
     state.UIState = Object.assign(state.UIState, newstate);
   },
   async SET_PROGSTATE(state, newstate) {
     state.progress = newstate;
+  },
+  async SET_RESULT(state, newstate) {
+    state.testResult = Object.assign(state.testResult, newstate);
   }
 };
 export default new Vuex.Store({
