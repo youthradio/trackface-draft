@@ -57,28 +57,34 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-app.post("/push", async (req, res, next) =>
+app.post("/push", async (req, res) =>
   new Promise((resolve, reject) => {
-    upload(req, res, async err => {
-      if (err) {
-        return res.status(500).send({ error: err.stack });
-      }
-      if (!("referenceimage" in req.files) || !("targetimage" in req.files)) {
-        const err = new Error("Error: Need two input files");
-        res.status(500).send({ error: err.stack });
-        return reject(err);
-      }
-      const results = await faceReg.compareFaces(
-        req.files.referenceimage[0].buffer,
-        req.files.targetimage[0].buffer
-      );
-      resolve(results);
-    });
+    try {
+      upload(req, res, async err => {
+        if (err) {
+          return res.status(500).send({ error: err.stack });
+        }
+        if (!("referenceimage" in req.files) || !("targetimage" in req.files)) {
+          const err = new Error("Error: Need two input files");
+          res.status(500).send({ error: err.stack });
+          return reject(err);
+        }
+        try {
+          const results = await faceReg.compareFaces(
+            req.files.referenceimage[0].buffer,
+            req.files.targetimage[0].buffer
+          );
+          resolve(Object.assign(results, { error: "success" }));
+        } catch (err) {
+          resolve(Object.assign({}, { error: err }));
+        }
+      });
+    } catch (err) {
+      reject(err);
+    }
+  }).then(results => {
+    res.json(results);
   })
-    .then(results => {
-      res.json(results);
-    })
-    .catch(err => next(err))
 );
 
 const port = process.env.PORT;
