@@ -16,7 +16,9 @@ const state = {
   testResult: {
     loading: null,
     result: null,
-    error: null
+    error: null,
+    targetImg: null,
+    refImg: null
   }
 };
 const actions = {

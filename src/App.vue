@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-    <ImageSelect />
+    <SelectionScreen />
     <MainUI />
     <Canvas />
     <BottomUi />
+    <ResultScreen />
   </div>
 </template>
 
@@ -11,7 +12,8 @@
 import MainUI from "./components/UiComponent.vue";
 import Canvas from "./components/Canvas.vue";
 import BottomUi from "./components/BottomUi.vue";
-import ImageSelect from "./components/ImageSelect.vue";
+import SelectionScreen from "./components/SelectionScreen.vue";
+import ResultScreen from "./components/ResultScreen.vue";
 
 export default {
   name: "App",
@@ -19,7 +21,8 @@ export default {
     MainUI,
     Canvas,
     BottomUi,
-    ImageSelect
+    SelectionScreen,
+    ResultScreen
   },
   created() {
     this.$store.dispatch("loadStore");

@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: "ImageSelect",
+  name: "SelectionScreen",
   props: {},
   data() {
     return {

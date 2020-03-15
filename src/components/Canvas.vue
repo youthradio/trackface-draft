@@ -12,11 +12,6 @@
       ref="canvas"
       id="cameraElement"
     ></canvas>
-    <h2 v-if="testResult.loading">LOADING</h2>
-    <h3 v-if="testResult.error">{{ testResult.error }}</h3>
-    <h3 v-if="testResult.result">
-      {{ JSON.stringify(testResult.result, null, 2) }}
-    </h3>
   </div>
 </template>
 
@@ -44,9 +39,6 @@ export default {
     },
     UIState() {
       return this.$store.state.UIState;
-    },
-    testResult() {
-      return this.$store.state.testResult;
     }
   },
   watch: {
@@ -119,7 +111,6 @@ export default {
 
           formData.append("referenceimage", this.currRefImgBlob, "refimg.jpg");
           formData.append("targetimage", targetBlob, "targetimg.jpg");
-          console.log(formData);
 
           console.log("TESTING");
           return fetch("http://localhost:8000/push", {
@@ -134,13 +125,13 @@ export default {
               this.$store.dispatch("setResultState", {
                 loading: false,
                 result: result,
-                error: null
+                targetImg: targetBlob,
+                refImg: this.currRefImgBlob
               });
             })
             .catch(error => {
               this.$store.dispatch("setResultState", {
                 loading: false,
-                result: null,
                 error: error
               });
             });
@@ -284,7 +275,6 @@ export default {
   },
   mounted() {
     document.addEventListener("mouseup", this.mouseEvent);
-
     document.addEventListener("keydown", event => {
       if (event.code === "KeyZ" && (event.ctrlKey || event.metaKey)) {
         this.rollBack();
