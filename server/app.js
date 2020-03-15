@@ -54,7 +54,7 @@ app.use(cors(corsOptions));
 const faceReg = new AWSFaceRecognition();
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/views/index.html");
+  res.send("Nothing here");
 });
 
 app.post("/push", async (req, res) =>
@@ -87,5 +87,7 @@ app.post("/push", async (req, res) =>
   })
 );
 
-const port = process.env.PORT;
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+// const port = process.env.PORT;
+// app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+module.exports = app;

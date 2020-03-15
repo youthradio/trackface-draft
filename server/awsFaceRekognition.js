@@ -1,9 +1,6 @@
 require("dotenv").config();
 const AWS = require("aws-sdk");
-const fs = require("fs");
-const bucket = "expfaceapp"; // the bucketname without s3://
-const photo_source = "dogin.jpg";
-const photo_target = "doge.png";
+
 const config = new AWS.Config({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
