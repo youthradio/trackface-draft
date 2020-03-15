@@ -111,9 +111,7 @@ export default {
 
           formData.append("referenceimage", this.currRefImgBlob, "refimg.jpg");
           formData.append("targetimage", targetBlob, "targetimg.jpg");
-
-          console.log("TESTING");
-          return fetch("http://localhost:8000/push", {
+          return fetch(process.env.VUE_APP_SERVER_URL, {
             method: "POST",
             body: formData,
             header: {

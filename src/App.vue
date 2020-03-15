@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="container">
     <SelectionScreen />
     <MainUI />
     <Canvas />
@@ -31,4 +31,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.container {
+  max-width: 500px;
+}
+</style>

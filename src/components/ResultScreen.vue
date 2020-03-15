@@ -1,8 +1,11 @@
 <template>
   <div ref="container">
-    <h1>RESULT</h1>
-    <canvas ref="canvas"></canvas>
+    <h1 v-if="testResult.result">RESULT</h1>
     <h2 v-if="testResult.loading">LOADING</h2>
+    <canvas ref="canvas"></canvas>
+    <h1 v-if="matchesSimilarity">
+      Similarity: {{ matchesSimilarity.toFixed(2) }}%
+    </h1>
     <h3 v-if="testResult.error">{{ testResult.error }}</h3>
     <h3 v-if="testResult.result">
       {{ JSON.stringify(testResult.result, null, 2) }}
@@ -90,8 +93,32 @@ export default {
   computed: {
     testResult() {
       return this.$store.state.testResult;
+    },
+    matchesSimilarity() {
+      if (
+        this.testResult.result &&
+        this.testResult.result.FaceMatches.length > 0
+      ) {
+        return this.testResult.result.FaceMatches[0].Similarity;
+      }
+      return null;
+    },
+    unmatchesSimilarity() {
+      if (
+        this.testResult.result &&
+        this.testResult.result.UnmatchedFaces.length > 0
+      ) {
+        return this.testResult.result.UnmatchedFaces[0].Confidence;
+      }
+      return null;
     }
   }
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+canvas {
+  width: 100%;
+  height: auto;
+  // touch-action: none;
+}
+</style>
