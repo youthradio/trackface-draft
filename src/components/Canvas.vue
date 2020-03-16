@@ -250,8 +250,7 @@ export default {
             const img = new Image();
             img.onload = () => resolve(img);
             img.onerror = reject;
-            const url = URL.createObjectURL(blob);
-            img.src = url;
+            img.src = window.URL.createObjectURL(blob);
           });
       });
     },

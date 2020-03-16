@@ -86,7 +86,7 @@ export default {
         const img = new Image();
         img.onload = () => resolve(img);
         img.onerror = reject;
-        img.src = URL.createObjectURL(blob);
+        img.src = window.URL.createObjectURL(blob);
       });
     }
   },
