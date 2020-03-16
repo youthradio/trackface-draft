@@ -70,7 +70,7 @@ export default {
 .image-select-item {
   position: relative;
   flex: 2;
-  // padding: 0.4rem;
+  margin: 0.4rem;
 }
 // .selected::after {
 //   content: "dsdsd";
@@ -83,16 +83,23 @@ export default {
 //   background-color: red;
 // }
 
+.selected{
+  box-shadow: 0px 0px 10px black;
+}
+
 .selected::after {
   content: "✔";
   position: absolute;
-  top: 0;
-  left: 90%;
-  width: 1rem;
-  height: 1rem;
+  top: -0.8rem;
+  left: 85%;
+  width: 2rem;
+  height: 2rem;
+  text-align: center;
+  vertical-align: bottom;
+  padding: 10px 0 0 0; // it's dirty but i'll come up with better code
 
   background-color: white;
-  border: 0.5rem solid white;
+  border: 0.1rem solid black;
   border-radius: 100%;
   z-index: 1000;
 }
