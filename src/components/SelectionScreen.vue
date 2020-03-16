@@ -72,15 +72,29 @@ export default {
   flex: 2;
   // padding: 0.4rem;
 }
+// .selected::after {
+//   content: "dsdsd";
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   opacity: 20%;
+//   background-color: red;
+// }
+
 .selected::after {
-  content: "dsdsd";
+  content: "✔";
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 20%;
-  background-color: red;
+  left: 90%;
+  width: 1rem;
+  height: 1rem;
+
+  background-color: white;
+  border: 0.5rem solid white;
+  border-radius: 100%;
+  z-index: 1000;
 }
 .img-fluid {
   width: 100%;
