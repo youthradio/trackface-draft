@@ -29,8 +29,9 @@ export default {
       penSet: false,
       main: { canvas: null, ctx: null },
       layer: { canvas: null, ctx: null },
-      currRefImg: null,
-      currRefImgBlob: null
+      currRefImgBlob: null,
+      currTargetImgBlob: null,
+      currTargetImg: null
     };
   },
   computed: {
@@ -44,7 +45,9 @@ export default {
   watch: {
     "UIState.selectedReferenceImg": function() {
       this.clearCanvas();
-      this.updateReferenceImage();
+      this.loadReferenceImage();
+      this.loadTargeImage();
+      this.updateTargetImage();
     },
     "UIState.selectedTool": function(action) {
       console.log(action);
@@ -161,16 +164,16 @@ export default {
         });
       });
       this.main.ctx.drawImage(
-        this.currRefImg,
+        this.currTargetImg,
         0,
         0,
-        this.currRefImg.width,
-        this.currRefImg.height,
+        this.currTargetImg.width,
+        this.currTargetImg.height,
         0,
         0,
         this.main.canvas.width,
-        this.currRefImg.height *
-          (this.main.canvas.width / this.currRefImg.width)
+        this.currTargetImg.height *
+          (this.main.canvas.width / this.currTargetImg.width)
       );
 
       this.main.ctx.drawImage(this.layer.canvas, 0, 0);
@@ -240,13 +243,22 @@ export default {
       this.layer.ctx.stroke();
       this.main.ctx.drawImage(this.layer.canvas, 0, 0);
     },
+    // load reference image from store and keep it as blob
     async loadReferenceImage() {
       const imgData = require(`../assets/${this.UIState.selectedReferenceImg.src}`);
+      return fetch(imgData)
+        .then(res => res.blob())
+        .then(blob => {
+          this.currRefImgBlob = blob;
+        });
+    },
+    async loadTargeImage() {
+      const imgData = require(`../assets/${this.UIState.selectedReferenceImg.target}`);
       return new Promise((resolve, reject) => {
         return fetch(imgData)
           .then(res => res.blob())
           .then(blob => {
-            this.currRefImgBlob = blob;
+            this.currTargetImgBlob = blob;
             const img = new Image();
             img.onload = () => resolve(img);
             img.onerror = reject;
@@ -254,19 +266,20 @@ export default {
           });
       });
     },
-    async updateReferenceImage() {
-      this.currRefImg = await this.loadReferenceImage();
+    // draw target image on canvas
+    async updateTargetImage() {
+      this.currTargetImg = await this.loadTargeImage();
       this.main.ctx.drawImage(
-        this.currRefImg,
+        this.currTargetImg,
         0,
         0,
-        this.currRefImg.width,
-        this.currRefImg.height,
+        this.currTargetImg.width,
+        this.currTargetImg.height,
         0,
         0,
         this.main.canvas.width,
-        this.currRefImg.height *
-          (this.main.canvas.width / this.currRefImg.width)
+        this.currTargetImg.height *
+          (this.main.canvas.width / this.currTargetImg.width)
       );
     }
   },
@@ -288,7 +301,9 @@ export default {
 
     this.layer.ctx.lineWidth = 10;
     this.layer.ctx.lineJoin = this.layer.ctx.lineCap = "round";
-    this.updateReferenceImage();
+    this.loadReferenceImage();
+    this.loadTargeImage();
+    this.updateTargetImage();
   }
 };
 </script>
