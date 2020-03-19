@@ -6,7 +6,8 @@ Vue.use(Vuex);
 
 const state = {
   UIState: {
-    selectedTool: null,
+    selectedColor: null,
+    selectedStrokeWeight: null,
     selectedReferenceImg: null,
     selectedAction: null
   },
@@ -37,10 +38,11 @@ const actions = {
 };
 const mutations = {
   async LOAD_STORE(state) {
-    state.toolsData = data.toolsData.slice();
+    state.toolsData = Object.assign({}, data.toolsData);
     state.referenceImages = data.referenceImages.slice();
     state.UIState.selectedAction = "none";
-    state.UIState.selectedTool = state.toolsData[0];
+    state.UIState.selectedColor = state.toolsData.colors[0];
+    state.UIState.selectedStrokeWeight = state.toolsData.strokeWeight[0];
     state.UIState.selectedReferenceImg = state.referenceImages[0];
     state.progresss = "imageSelection";
     state.testResult.loading = false;
