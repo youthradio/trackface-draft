@@ -24,7 +24,8 @@ export default {
       isDrawing: false,
       historyPointer: -1,
       history: {
-        points: []
+        points: [],
+        colors: []
       },
       penSet: false,
       main: { canvas: null, ctx: null },
@@ -151,9 +152,10 @@ export default {
         this.layer.canvas.height
       );
       this.history.points.pop();
+      this.history.colors.pop();
       // this.$set(this.history, "points", );
 
-      this.history.points.forEach(points => {
+      this.history.points.forEach((points, historyIndex) => {
         points.forEach((point, i) => {
           if (i <= 0) {
             this.layer.ctx.beginPath();
@@ -161,6 +163,7 @@ export default {
           }
           this.layer.ctx.lineTo(point[0], point[1]);
           this.layer.ctx.stroke();
+          this.layer.ctx.strokeStyle = this.history.colors[historyIndex];
         });
       });
       this.main.ctx.drawImage(
@@ -220,6 +223,11 @@ export default {
         // usint this.$set because vue is not reactivy for array updates
         if (this.history.points[this.historyPointer] === undefined) {
           this.$set(this.history.points, this.historyPointer, []);
+          this.$set(
+            this.history.colors,
+            this.historyPointer,
+            this.UIState.selectedColor
+          );
         }
         const currPoints = this.history.points[this.historyPointer];
         this.$set(
@@ -241,6 +249,7 @@ export default {
       }
       this.layer.ctx.lineTo(points[pos][0], points[pos][1]);
       this.layer.ctx.stroke();
+      this.layer.ctx.strokeStyle = this.history.colors[this.historyPointer];
       this.main.ctx.drawImage(this.layer.canvas, 0, 0);
     },
     // load reference image from store and keep it as blob

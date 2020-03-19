@@ -1,10 +1,10 @@
 export default {
-  toolsData: [
-    { name: "Pencil", image: "icons/pencil.png" },
-    { name: "Stroke Brush", image: "icons/strokebrush.png" },
-    { name: "Sticker", image: "icons/sticker.png" },
-    { name: "Brush", image: "icons/paintbrush.png" }
-  ],
+  toolsData: {
+    name: "Pencil",
+    image: "icons/pencil.png",
+    colors: ["#ff00ff", "#ffffff", "#f200f2", "#ee00ee", "#1f11ee"],
+    strokeWeight: [2, 4, 6, 10, 20]
+  },
   referenceImages: [
     {
       name: "A",

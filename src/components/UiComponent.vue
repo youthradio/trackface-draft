@@ -1,18 +1,44 @@
 <template>
   <div class="ui-container">
-    <ul class="tool-list">
-      <li class="tool-list-item" v-for="tool in toolsData" :key="tool.name">
-        <a href="#" @click.prevent="setTool(tool)"
-          ><img
-            :class="[
-              'tool-icon',
-              { toolIconEnabled: selectedTool.name == tool.name }
-            ]"
-            :src="require(`../assets/${tool.image}`)"
-          />
+    <h2>{{ toolsData.name }}</h2>
+    <p>{{ toolsData }}</p>
+    <h3>Stroke: {{ selectedStrokeWeight }}</h3>
+    <h3>Color: {{ selectedColor }}</h3>
+    <div class="colors">
+      <span
+        :style="{ backgroundColor: color }"
+        :key="color"
+        v-for="color in toolsData.colors"
+      >
+        <a href="#" @click.prevent="setColor(color)">
+          {{ color }}
         </a>
-      </li>
-    </ul>
+      </span>
+    </div>
+    <div class="strokes">
+      <svg
+        height="40"
+        width="60"
+        :key="`key-${size}`"
+        v-for="size in toolsData.strokeWeight"
+      >
+        <a href="#" @click.prevent="setStrokeWeight(size)">
+          <g>
+            <circle :cx="size" cy="20" :r="size" fill="red" />
+            <text
+              dominant-baseline="middle"
+              alignment-baseline="middle"
+              y="20"
+              :x="5 + 2 * size"
+              class="small"
+            >
+              {{ size }}
+            </text>
+          </g>
+        </a>
+      </svg>
+    </div>
+    <img class="tool-icon" :src="require(`../assets/${toolsData.image}`)" />
   </div>
 </template>
 
@@ -22,18 +48,26 @@ export default {
   props: {},
   data() {
     return {
-      selectedTool: "" //we have the tool's name in our component and could send it to our store
+      selectedColor: null,
+      selectedStrokeWeight: null
     };
   },
   methods: {
-    setTool(tool) {
+    setColor(color) {
+      this.selectedColor = color;
+      this.$store.dispatch("setUIState", { selectedColor: this.selectedColor });
+    },
+    setStrokeWeight(stroke) {
       //would this be to send to the store?
-      this.selectedTool = tool;
-      this.$store.dispatch("setUIState", { selectedTool: this.selectedTool });
+      this.selectedStrokeWeight = stroke;
+      this.$store.dispatch("setUIState", {
+        selectedStrokeWeight: this.selectedStrokeWeight
+      });
     }
   },
   created() {
-    this.selectedTool = this.UIState.selectedTool;
+    this.selectedColor = this.UIState.selectedColor;
+    this.selectedStrokeWeight = this.UIState.selectedStrokeWeight;
   },
   computed: {
     toolsData() {
