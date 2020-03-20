@@ -1,9 +1,26 @@
+/* eslint-disable prettier/prettier */
 <template>
   <div class="ui-container">
     <h2>{{ toolsData.name }}</h2>
     <p>{{ toolsData }}</p>
+
     <h3>Stroke: {{ selectedStrokeWeight }}</h3>
     <h3>Color: {{ selectedColor }}</h3>
+
+    <div class="tool-list">
+      <div class="tool-icon-container">
+        <img class="tool-icon" :src="require(`../assets/${toolsData.image}`)" />
+      </div>
+      <div class="tool-icon-container stroke-size-tool">
+        <img class="tool-icon" :src="require(`../assets/${toolsData.image}`)" />
+      </div>
+      <div class="tool-icon-container color-pick-tool">
+        <img
+          class="tool-icon"
+          :src="require(`../assets/icons/colorfill.png`)"
+        />
+      </div>
+    </div>
     <div class="colors">
       <a
         href="#"
@@ -32,7 +49,6 @@
         </svg>
       </a>
     </div>
-    <img class="tool-icon" :src="require(`../assets/${toolsData.image}`)" />
   </div>
 </template>
 
@@ -82,9 +98,17 @@ export default {
 .strokes {
   display: flex;
 }
+.colors {
+  display: flex;
+}
+
+.hidden {
+  display: none;
+}
 
 .tool-list {
   display: flex;
+  flex-direction: column;
   list-style-type: none;
   margin: 0;
   padding: 0;
