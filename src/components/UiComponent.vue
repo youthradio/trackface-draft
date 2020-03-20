@@ -16,19 +16,20 @@
       </span>
     </div>
     <div class="strokes">
+      <a href="#" :key="`key-${size}`"
+        v-for="size in toolsData.strokeWeight.slice().reverse()"
+        @click.prevent="setStrokeWeight(size)">
       <svg
         height="40"
-        width="60"
-        :key="`key-${size}`"
-        v-for="size in toolsData.strokeWeight.slice().reverse()"
+        width="60" 
       >
-        <a href="#" @click.prevent="setStrokeWeight(size)">
+        
           <g>
             <circle :cx="size" cy="20" :r="size" fill="black" />
             
           </g>
-        </a>
       </svg>
+        </a>
     </div>
     <img class="tool-icon" :src="require(`../assets/${toolsData.image}`)" />
   </div>
