@@ -5,31 +5,32 @@
     <h3>Stroke: {{ selectedStrokeWeight }}</h3>
     <h3>Color: {{ selectedColor }}</h3>
     <div class="colors">
-      <span
-        :style="{ backgroundColor: color }"
+      <a
+        href="#"
+        @click.prevent="setColor(color)"
         :key="color"
         v-for="color in toolsData.colors"
       >
-        <a href="#" @click.prevent="setColor(color)">
-          {{ color }}
-        </a>
-      </span>
+        <svg height="40" width="60">
+          <g>
+            <circle cx="20" cy="20" r="20" :fill="color" />
+          </g>
+        </svg>
+      </a>
     </div>
     <div class="strokes">
-      <a href="#" :key="`key-${size}`"
+      <a
+        href="#"
+        :key="`key-${size}`"
         v-for="size in toolsData.strokeWeight.slice().reverse()"
-        @click.prevent="setStrokeWeight(size)">
-      <svg
-        height="40"
-        width="60" 
+        @click.prevent="setStrokeWeight(size)"
       >
-        
+        <svg height="40" width="60">
           <g>
             <circle :cx="size" cy="20" :r="size" fill="black" />
-            
           </g>
-      </svg>
-        </a>
+        </svg>
+      </a>
     </div>
     <img class="tool-icon" :src="require(`../assets/${toolsData.image}`)" />
   </div>
@@ -78,7 +79,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@/css/vars";
 
-.strokes{
+.strokes {
   display: flex;
 }
 
