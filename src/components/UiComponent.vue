@@ -20,20 +20,12 @@
         height="40"
         width="60"
         :key="`key-${size}`"
-        v-for="size in toolsData.strokeWeight"
+        v-for="size in toolsData.strokeWeight.slice().reverse()"
       >
         <a href="#" @click.prevent="setStrokeWeight(size)">
           <g>
-            <circle :cx="size" cy="20" :r="size" fill="red" />
-            <text
-              dominant-baseline="middle"
-              alignment-baseline="middle"
-              y="20"
-              :x="5 + 2 * size"
-              class="small"
-            >
-              {{ size }}
-            </text>
+            <circle :cx="size" cy="20" :r="size" fill="black" />
+            
           </g>
         </a>
       </svg>
@@ -84,6 +76,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "~@/css/vars";
+
+.strokes{
+  display: flex;
+}
 
 .tool-list {
   display: flex;
