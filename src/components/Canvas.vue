@@ -25,7 +25,8 @@ export default {
       historyPointer: -1,
       history: {
         points: [],
-        colors: []
+        colors: [],
+        sizes: []
       },
       penSet: false,
       main: { canvas: null, ctx: null },
@@ -153,9 +154,12 @@ export default {
       );
       this.history.points.pop();
       this.history.colors.pop();
+      this.history.sizes.pop();
       // this.$set(this.history, "points", );
 
       this.history.points.forEach((points, historyIndex) => {
+        this.layer.ctx.strokeStyle = this.history.colors[historyIndex];
+        this.layer.ctx.lineWidth = this.history.sizes[historyIndex];
         points.forEach((point, i) => {
           if (i <= 0) {
             this.layer.ctx.beginPath();
@@ -163,7 +167,6 @@ export default {
           }
           this.layer.ctx.lineTo(point[0], point[1]);
           this.layer.ctx.stroke();
-          this.layer.ctx.strokeStyle = this.history.colors[historyIndex];
         });
       });
       this.main.ctx.drawImage(
@@ -223,6 +226,12 @@ export default {
         // usint this.$set because vue is not reactivy for array updates
         if (this.history.points[this.historyPointer] === undefined) {
           this.$set(this.history.points, this.historyPointer, []);
+
+          this.$set(
+            this.history.sizes,
+            this.historyPointer,
+            this.UIState.selectedStrokeWeight
+          );
           this.$set(
             this.history.colors,
             this.historyPointer,
@@ -242,6 +251,8 @@ export default {
     draw() {
       const points = this.history.points[this.historyPointer];
       const pos = points.length - 1;
+      this.layer.ctx.strokeStyle = this.history.colors[this.historyPointer];
+      this.layer.ctx.lineWidth = this.history.sizes[this.historyPointer];
       if (!this.penSet) {
         this.penSet = true;
         this.layer.ctx.beginPath();
@@ -249,7 +260,6 @@ export default {
       }
       this.layer.ctx.lineTo(points[pos][0], points[pos][1]);
       this.layer.ctx.stroke();
-      this.layer.ctx.strokeStyle = this.history.colors[this.historyPointer];
       this.main.ctx.drawImage(this.layer.canvas, 0, 0);
     },
     // load reference image from store and keep it as blob
