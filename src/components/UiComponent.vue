@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 <template>
   <div class="ui-container">
     <h2>{{ toolsData.name }}</h2>
@@ -12,14 +11,18 @@
         <img class="tool-icon" :src="require(`../assets/${toolsData.image}`)" />
       </div>
       <div class="tool-icon-container stroke-size-tool">
-        <svg height="40" width="40">
-          <g>
-            <circle cx="50%" cy="50%" :r="selectedStrokeWeight" fill="black" />
-          </g>
-        </svg>
-        <div class="">
-          {{ selectedStrokeWeight }}
-        </div>
+        <a
+          ><svg height="40" width="40">
+            <g>
+              <circle
+                cx="50%"
+                cy="50%"
+                :r="selectedStrokeWeight"
+                fill="black"
+              />
+            </g></svg
+        ></a>
+        <div class="">{{ selectedStrokeWeight }}px</div>
       </div>
       <div class="tool-icon-container color-pick-tool">
         <img
@@ -66,7 +69,11 @@ export default {
   data() {
     return {
       selectedColor: null,
-      selectedStrokeWeight: null
+      selectedStrokeWeight: null,
+      toolState: {
+        strokeSizeMenu: false,
+        colorPickerMenu: false
+      }
     };
   },
   methods: {
@@ -126,21 +133,23 @@ export default {
     max-width: 100%;
     height: auto;
     text-align: center;
-    border: 5px solid $gray;
+    border: 0px solid #f0f0f0;
     border-radius: 100%;
     position: relative;
     overflow: hidden;
     border-radius: 50%;
+    background-color: #f0f0f0;
   }
   .stroke-size-tool {
     display: flex;
     flex-direction: column;
     align-items: center;
     align-content: stretch;
-    border: 5px solid $gray;
+    border: 0px solid #f0f0f0;
     border-radius: 100%;
     margin: 0;
     padding: 0;
+    background-color: #f0f0f0;
   }
   .tool-icon:hover {
     transition: 0.1s;
