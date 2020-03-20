@@ -12,7 +12,14 @@
         <img class="tool-icon" :src="require(`../assets/${toolsData.image}`)" />
       </div>
       <div class="tool-icon-container stroke-size-tool">
-        <img class="tool-icon" :src="require(`../assets/${toolsData.image}`)" />
+        <svg height="40" width="40">
+          <g>
+            <circle cx="50%" cy="50%" :r="selectedStrokeWeight" fill="black" />
+          </g>
+        </svg>
+        <div class="">
+          {{ selectedStrokeWeight }}
+        </div>
       </div>
       <div class="tool-icon-container color-pick-tool">
         <img
@@ -113,6 +120,7 @@ export default {
   margin: 0;
   padding: 0;
   justify-content: center;
+  width: 5rem;
   .tool-icon {
     transition: 0.1s;
     max-width: 100%;
@@ -123,6 +131,16 @@ export default {
     position: relative;
     overflow: hidden;
     border-radius: 50%;
+  }
+  .stroke-size-tool {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: stretch;
+    border: 5px solid $gray;
+    border-radius: 100%;
+    margin: 0;
+    padding: 0;
   }
   .tool-icon:hover {
     transition: 0.1s;
