@@ -53,7 +53,7 @@
             :key="color"
             v-for="color in toolsData.colors"
           >
-            <svg height="40" width="60">
+            <svg height="40" width="40">
               <g>
                 <circle cx="20" cy="20" r="20" :fill="color" />
               </g>
@@ -178,6 +178,7 @@ export default {
     align-content: stretch;
     border: 0px solid #f0f0f0;
     border-radius: 100%;
+    width: 4rem;
     margin: 0;
     padding: 0;
     background-color: #f0f0f0;
