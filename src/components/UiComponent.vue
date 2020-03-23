@@ -10,8 +10,25 @@
       <div class="tool-icon-container">
         <img class="tool-icon" :src="require(`../assets/${toolsData.image}`)" />
       </div>
-      <div class="tool-icon-container stroke-size-tool">
-        <a
+      <div class="tool-icon-container">
+        <div
+          :class="[toolState.strokeSizeMenu ? 'colors' : 'hidden']"
+          class="strokes"
+        >
+          <a
+            href="#"
+            :key="`key-${size}`"
+            v-for="size in toolsData.strokeWeight.slice().reverse()"
+            @click.prevent="setStrokeWeight(size)"
+          >
+            <svg height="40" width="60">
+              <g>
+                <circle :cx="size" cy="20" :r="size" fill="black" />
+              </g>
+            </svg>
+          </a>
+        </div>
+        <a class="stroke-size-tool" @click="openStrokeMenu()"
           ><svg height="40" width="40">
             <g>
               <circle
@@ -20,44 +37,35 @@
                 :r="selectedStrokeWeight"
                 fill="black"
               />
-            </g></svg
-        ></a>
-        <div class="">{{ selectedStrokeWeight }}px</div>
+            </g>
+          </svg>
+          <div class="">{{ selectedStrokeWeight }}px</div></a
+        >
       </div>
       <div class="tool-icon-container color-pick-tool">
+        <div
+          :class="[toolState.colorPickerMenu ? 'colors' : 'hidden']"
+          class="colors"
+        >
+          <a
+            href="#"
+            @click.prevent="setColor(color)"
+            :key="color"
+            v-for="color in toolsData.colors"
+          >
+            <svg height="40" width="60">
+              <g>
+                <circle cx="20" cy="20" r="20" :fill="color" />
+              </g>
+            </svg>
+          </a>
+        </div>
         <img
+          @click="openColorMenu()"
           class="tool-icon"
           :src="require(`../assets/icons/colorfill.png`)"
         />
       </div>
-    </div>
-    <div class="colors">
-      <a
-        href="#"
-        @click.prevent="setColor(color)"
-        :key="color"
-        v-for="color in toolsData.colors"
-      >
-        <svg height="40" width="60">
-          <g>
-            <circle cx="20" cy="20" r="20" :fill="color" />
-          </g>
-        </svg>
-      </a>
-    </div>
-    <div class="strokes">
-      <a
-        href="#"
-        :key="`key-${size}`"
-        v-for="size in toolsData.strokeWeight.slice().reverse()"
-        @click.prevent="setStrokeWeight(size)"
-      >
-        <svg height="40" width="60">
-          <g>
-            <circle :cx="size" cy="20" :r="size" fill="black" />
-          </g>
-        </svg>
-      </a>
     </div>
   </div>
 </template>
@@ -80,6 +88,20 @@ export default {
     setColor(color) {
       this.selectedColor = color;
       this.$store.dispatch("setUIState", { selectedColor: this.selectedColor });
+    },
+    openColorMenu() {
+      if (this.toolState.colorPickerMenu == false) {
+        this.toolState.colorPickerMenu = true;
+      } else if (this.toolState.colorPickerMenu == true) {
+        this.toolState.colorPickerMenu = false;
+      }
+    },
+    openStrokeMenu() {
+      if (this.toolState.strokeSizeMenu == false) {
+        this.toolState.strokeSizeMenu = true;
+      } else if (this.toolState.strokeSizeMenu == true) {
+        this.toolState.strokeSizeMenu = false;
+      }
     },
     setStrokeWeight(stroke) {
       //would this be to send to the store?
@@ -120,6 +142,10 @@ export default {
   display: none;
 }
 
+.tool-icon-container {
+  display: flex;
+}
+
 .tool-list {
   display: flex;
   flex-direction: column;
@@ -127,7 +153,7 @@ export default {
   margin: 0;
   padding: 0;
   justify-content: center;
-  width: 5rem;
+  align-items: flex-end;
   .tool-icon {
     transition: 0.1s;
     max-width: 100%;
@@ -136,7 +162,6 @@ export default {
     border: 0px solid #f0f0f0;
     border-radius: 100%;
     position: relative;
-    overflow: hidden;
     border-radius: 50%;
     background-color: #f0f0f0;
   }
