@@ -90,6 +90,9 @@ export default {
       this.$store.dispatch("setUIState", { selectedColor: this.selectedColor });
     },
     openColorMenu() {
+      if (this.toolState.strokeSizeMenu == true) {
+        this.toolState.strokeSizeMenu = false;
+      }
       if (this.toolState.colorPickerMenu == false) {
         this.toolState.colorPickerMenu = true;
       } else if (this.toolState.colorPickerMenu == true) {
@@ -97,6 +100,9 @@ export default {
       }
     },
     openStrokeMenu() {
+      if (this.toolState.colorPickerMenu == true) {
+        this.toolState.colorPickerMenu = false;
+      }
       if (this.toolState.strokeSizeMenu == false) {
         this.toolState.strokeSizeMenu = true;
       } else if (this.toolState.strokeSizeMenu == true) {
