@@ -57,9 +57,9 @@
             :key="color"
             v-for="color in toolsData.colors"
           >
-            <svg height="40" width="40">
+            <svg height="25" width="25">
               <g>
-                <circle cx="20" cy="20" r="20" :fill="color" />
+                <circle cx="10" cy="10" r="10" :fill="color" />
               </g>
             </svg>
           </a>
@@ -169,6 +169,7 @@ export default {
 }
 .enabled {
   display: flex;
+  align-items: center;
 }
 
 .hidden {

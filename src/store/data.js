@@ -2,7 +2,17 @@ export default {
   toolsData: {
     name: "Pencil",
     image: "icons/pencil.png",
-    colors: ["#ff00ff", "#ffffff", "#f200f2", "#ee00ee", "#1f11ee"],
+    colors: [
+      "#DC6460",
+      "#E88866",
+      "#FADB70",
+      "#51B576",
+      "#4976C5",
+      "#7966EE",
+      "#8148C8",
+      "#000000",
+      "#FFFFFF"
+    ],
     strokeWeight: [2, 4, 6, 10, 20]
   },
   referenceImages: [
