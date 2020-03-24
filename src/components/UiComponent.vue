@@ -203,26 +203,25 @@ export default {
   .tool-icon {
     transition: 0.1s;
     max-width: 100%;
-    height: auto;
+    height: 4rem;
+    width: 4rem;
     text-align: center;
     border-radius: 100%;
     position: relative;
     border-radius: 50%;
   }
   .stroke-size-tool {
+    transition: 0.1s;
     display: flex;
     flex-direction: column;
     align-items: center;
     align-content: stretch;
     border-radius: 100%;
+    height: 4rem;
     width: 4rem;
     margin: 0;
     padding: 0;
     mix-blend-mode: difference;
-  }
-  .tool-icon:hover {
-    transition: 0.1s;
-    box-shadow: 0px 0px 5px;
   }
   .toolIconEnabled {
     box-shadow: 0px 0px 5px;
