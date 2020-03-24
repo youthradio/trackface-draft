@@ -23,19 +23,26 @@
           >
             <svg height="40" width="40">
               <g>
-                <circle :cx="size" cy="20" :r="size" fill="black" />
+                <circle :cx="size" cy="20" :r="size" :fill="black" />
               </g>
             </svg>
           </a>
         </div>
-        <a class="stroke-size-tool" @click="openStrokeMenu()"
+        <a
+          :class="[
+            'stroke-size-tool',
+            toolState.strokeSizeMenu
+              ? 'background-enable'
+              : 'background-disable'
+          ]"
+          @click="openStrokeMenu()"
           ><svg height="40" width="40">
             <g>
               <circle
                 cx="50%"
                 cy="50%"
                 :r="selectedStrokeWeight"
-                fill="black"
+                :fill="[toolState.strokeSizeMenu ? 'white' : 'black']"
               />
             </g>
           </svg>
@@ -180,6 +187,7 @@ export default {
 .background-enable {
   background-color: #000;
   border: 0px solid #000;
+  color: white;
   mix-blend-mode: difference;
 }
 
@@ -205,12 +213,10 @@ export default {
     flex-direction: column;
     align-items: center;
     align-content: stretch;
-    border: 0px solid #f0f0f0;
     border-radius: 100%;
     width: 4rem;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
     mix-blend-mode: difference;
   }
   .tool-icon:hover {
