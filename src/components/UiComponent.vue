@@ -210,7 +210,6 @@ export default {
   background-color: #000;
   border: 0px solid #000;
   color: white;
-  mix-blend-mode: difference;
 }
 
 .tool-list {
@@ -242,7 +241,6 @@ export default {
     width: 4rem;
     margin: 0;
     padding: 0;
-    mix-blend-mode: difference;
   }
   .toolIconEnabled {
     box-shadow: 0px 0px 5px;
