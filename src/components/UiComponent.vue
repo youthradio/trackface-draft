@@ -10,13 +10,13 @@
       <div class="tool-selection-container">
         <div class="tool-icon-container">
           <img
-            class="tool-icon"
+            class="tool-icon background-disable"
             :src="require(`../assets/${toolsData.image}`)"
           />
         </div>
         <div class="tool-icon-container">
           <img
-            class="tool-icon"
+            class="tool-icon background-disable"
             :src="require(`../assets/${toolsData.image}`)"
           />
         </div>
@@ -189,6 +189,16 @@ export default {
 
 .tool-icon-container {
   display: flex;
+  padding: 0.2rem 0 0.2rem 0;
+}
+
+.tool-selection-container {
+  display: flex;
+  flex-direction: row;
+
+  .tool-icon-container {
+    padding: 0 0rem 0 0.2rem;
+  }
 }
 
 .background-disable {
@@ -201,11 +211,6 @@ export default {
   border: 0px solid #000;
   color: white;
   mix-blend-mode: difference;
-}
-
-.tool-selection-container {
-  display: flex;
-  flex-direction: row;
 }
 
 .tool-list {
