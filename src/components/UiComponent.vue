@@ -7,8 +7,19 @@
     <h3>Color: {{ selectedColor }}</h3>
 
     <div class="tool-list">
-      <div class="tool-icon-container">
-        <img class="tool-icon" :src="require(`../assets/${toolsData.image}`)" />
+      <div class="tool-selection-container">
+        <div class="tool-icon-container">
+          <img
+            class="tool-icon"
+            :src="require(`../assets/${toolsData.image}`)"
+          />
+        </div>
+        <div class="tool-icon-container">
+          <img
+            class="tool-icon"
+            :src="require(`../assets/${toolsData.image}`)"
+          />
+        </div>
       </div>
       <div class="tool-icon-container">
         <div
@@ -190,6 +201,11 @@ export default {
   border: 0px solid #000;
   color: white;
   mix-blend-mode: difference;
+}
+
+.tool-selection-container {
+  display: flex;
+  flex-direction: row;
 }
 
 .tool-list {
