@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <SelectionScreen />
-    <MainUI />
+    <!-- <MainUI /> -->
     <Canvas />
     <BottomUi />
     <ResultScreen />
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import MainUI from "./components/UiComponent.vue";
+//import MainUI from "./components/UiComponent.vue";
 import Canvas from "./components/Canvas.vue";
 import BottomUi from "./components/BottomUi.vue";
 import SelectionScreen from "./components/SelectionScreen.vue";
@@ -18,7 +18,7 @@ import ResultScreen from "./components/ResultScreen.vue";
 export default {
   name: "App",
   components: {
-    MainUI,
+    //MainUI,
     Canvas,
     BottomUi,
     SelectionScreen,

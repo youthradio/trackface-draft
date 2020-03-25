@@ -1,5 +1,6 @@
 <template>
   <div ref="container" class="canvas-root">
+    <MainUI class="front-ui" />
     <canvas
       tabindex="0"
       @touchstart.prevent="mouseEvent"
@@ -16,9 +17,14 @@
 </template>
 
 <script>
+import MainUI from "./UiComponent.vue";
+
 export default {
   name: "Canvas",
   props: {},
+  components: {
+    MainUI
+  },
   data() {
     return {
       isDrawing: false,
@@ -327,6 +333,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.front-ui {
+  position: absolute;
+  right: 0;
+}
+.canvas-root {
+  position: relative;
+}
 canvas {
   width: 100%;
   height: auto;
