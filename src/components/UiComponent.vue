@@ -1,10 +1,10 @@
 <template>
   <div class="ui-container">
-    <h2>{{ toolsData.name }}</h2>
+    <!-- <h2>{{ toolsData.name }}</h2>
     <p>{{ toolsData }}</p>
 
     <h3>Stroke: {{ selectedStrokeWeight }}</h3>
-    <h3>Color: {{ selectedColor }}</h3>
+    <h3>Color: {{ selectedColor }}</h3> -->
 
     <div class="tool-list">
       <div class="tool-selection-container">
