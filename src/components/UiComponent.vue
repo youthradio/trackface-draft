@@ -5,7 +5,6 @@
 
     <h3>Stroke: {{ selectedStrokeWeight }}</h3>
     <h3>Color: {{ selectedColor }}</h3> -->
-
     <div class="tool-list">
       <div class="tool-selection-container">
         <div class="tool-icon-container">
