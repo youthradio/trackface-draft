@@ -63,11 +63,12 @@
         <div :class="['', toolState.colorPickerMenu ? 'enabled' : 'hidden']">
           <a
             href="#"
+            class="color-icon"
             @click.prevent="setColor(color)"
             :key="color"
             v-for="color in toolsData.colors"
           >
-            <svg height="25" width="25">
+            <svg height="20" width="20">
               <g>
                 <circle cx="10" cy="10" r="10" :fill="color" />
               </g>
@@ -174,6 +175,14 @@ export default {
 .enabled {
   display: flex;
   align-items: center;
+  background-color: #f0f0f0;
+  padding: 0rem 1rem 0rem 1rem;
+  border-radius: 8px;
+  margin: 0.7rem -1rem 0.7rem 0;
+}
+
+.color-icon {
+  height: 20px;
 }
 
 .hidden {
