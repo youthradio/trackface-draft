@@ -31,9 +31,9 @@
             v-for="size in toolsData.strokeWeight.slice().reverse()"
             @click.prevent="setStrokeWeight(size)"
           >
-            <svg height="40" width="40">
+            <svg :height="size * 2" :width="size * 2">
               <g>
-                <circle :cx="size" cy="20" :r="size" :fill="black" />
+                <circle :cx="size" :cy="size" :r="size" :fill="selectedColor" />
               </g>
             </svg>
           </a>
@@ -56,8 +56,8 @@
               />
             </g>
           </svg>
-          <div class="">{{ selectedStrokeWeight }}px</div></a
-        >
+          <div class="">{{ selectedStrokeWeight }}px</div>
+        </a>
       </div>
       <div class="tool-icon-container color-pick-tool">
         <div :class="['', toolState.colorPickerMenu ? 'enabled' : 'hidden']">
@@ -128,6 +128,7 @@ export default {
       this.$store.dispatch("setUIState", { selectedColor: this.selectedColor });
     },
     openColorMenu() {
+      // this.toolState.colorPickerMenu = ! this.toolState.colorPickerMenu;
       if (this.toolState.colorPickerMenu == false) {
         this.toolState.colorPickerMenu = true;
       } else if (this.toolState.colorPickerMenu == true) {
@@ -171,6 +172,7 @@ export default {
 
 .strokes {
   display: flex;
+  align-items: center;
 }
 .enabled {
   display: flex;
