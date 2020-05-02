@@ -212,9 +212,15 @@ export default {
       const eventType = event.type;
       if (eventType === "mouseup" || eventType === "touchend") {
         this.isDrawing = false;
+        this.$store.dispatch("setUIState", {
+          isDrawing: false
+        });
       } else if (eventType === "mousedown" || eventType === "touchstart") {
         this.historyPointer++;
         this.isDrawing = true;
+        this.$store.dispatch("setUIState", {
+          isDrawing: true
+        });
         this.penSet = false;
       } else if (
         (eventType === "mousemove" || eventType === "touchmove") &&

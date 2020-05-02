@@ -24,9 +24,9 @@ export default {
     return {
       selectedTool: "", //we have the tool's name in our component and could send it to our store
       toolsData: [
-          { name: "Pencil", image: "icons/pencil.png" },
-          { name: "Eraser", image: "icons/strokebrush.png" },
-          ]
+        { name: "Pencil", image: "icons/pencil.png" },
+        { name: "Eraser", image: "icons/strokebrush.png" }
+      ]
     };
   },
   methods: {
@@ -36,10 +36,8 @@ export default {
       //this.$store.dispatch("setUIState", { selectedTool: this.selectedTool });
     }
   },
-  created() {
-  },
-  computed: {
-  }
+  created() {},
+  computed: {}
 };
 </script>
 <style lang="scss" scoped>

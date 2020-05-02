@@ -9,7 +9,8 @@ const state = {
     selectedColor: null,
     selectedStrokeWeight: null,
     selectedReferenceImg: null,
-    selectedAction: null
+    selectedAction: null,
+    isDrawing: null
   },
   progress: null,
   toolsData: null,
@@ -42,8 +43,9 @@ const mutations = {
     state.referenceImages = data.referenceImages.slice();
     state.UIState.selectedAction = "none";
     state.UIState.selectedColor = state.toolsData.colors[7];
-    state.UIState.selectedStrokeWeight = state.toolsData.strokeWeight[0];
+    state.UIState.selectedStrokeWeight = state.toolsData.strokeWeight[3];
     state.UIState.selectedReferenceImg = state.referenceImages[0];
+    state.UIState.isDrawing = false;
     state.progresss = "imageSelection";
     state.testResult.loading = false;
   },

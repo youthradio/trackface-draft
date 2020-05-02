@@ -83,7 +83,7 @@ export default {
 //   background-color: red;
 // }
 
-.selected{
+.selected {
   box-shadow: 0px 0px 10px black;
 }
 

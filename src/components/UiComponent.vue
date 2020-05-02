@@ -6,7 +6,12 @@
     <h3>Stroke: {{ selectedStrokeWeight }}</h3>
     <h3>Color: {{ selectedColor }}</h3> -->
     <div class="tool-list">
-      <div class="tool-selection-container">
+      <div
+        class="tool-selection-container"
+        :style="
+          isDrawing ? { pointerEvents: 'none' } : { pointerEvents: 'all' }
+        "
+      >
         <div class="tool-icon-container">
           <img
             class="tool-icon background-disable"
@@ -20,7 +25,12 @@
           />
         </div>
       </div>
-      <div class="tool-icon-container">
+      <div
+        class="tool-icon-container"
+        :style="
+          isDrawing ? { pointerEvents: 'none' } : { pointerEvents: 'all' }
+        "
+      >
         <div
           :class="[toolState.strokeSizeMenu ? 'enabled' : 'hidden']"
           class="strokes"
@@ -59,7 +69,12 @@
           <div class="">{{ selectedStrokeWeight }}px</div>
         </a>
       </div>
-      <div class="tool-icon-container color-pick-tool">
+      <div
+        class="tool-icon-container color-pick-tool"
+        :style="
+          isDrawing ? { pointerEvents: 'none' } : { pointerEvents: 'all' }
+        "
+      >
         <div :class="['', toolState.colorPickerMenu ? 'enabled' : 'hidden']">
           <a
             href="#"
@@ -128,19 +143,10 @@ export default {
       this.$store.dispatch("setUIState", { selectedColor: this.selectedColor });
     },
     openColorMenu() {
-      // this.toolState.colorPickerMenu = ! this.toolState.colorPickerMenu;
-      if (this.toolState.colorPickerMenu == false) {
-        this.toolState.colorPickerMenu = true;
-      } else if (this.toolState.colorPickerMenu == true) {
-        this.toolState.colorPickerMenu = false;
-      }
+      this.toolState.colorPickerMenu = !this.toolState.colorPickerMenu;
     },
     openStrokeMenu() {
-      if (this.toolState.strokeSizeMenu == false) {
-        this.toolState.strokeSizeMenu = true;
-      } else if (this.toolState.strokeSizeMenu == true) {
-        this.toolState.strokeSizeMenu = false;
-      }
+      this.toolState.strokeSizeMenu = !this.toolState.strokeSizeMenu;
     },
     setStrokeWeight(stroke) {
       //would this be to send to the store?
@@ -161,6 +167,9 @@ export default {
     UIState() {
       return this.$store.state.UIState;
     },
+    isDrawing() {
+      return this.$store.state.UIState.isDrawing;
+    },
     setToolStyle: function() {
       return {};
     }
@@ -169,22 +178,29 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "~@/css/vars";
-
+.ui-container {
+  pointer-events: none;
+}
 .strokes {
   display: flex;
   align-items: center;
+  flex: 1 1;
+  a {
+    margin: 0.1rem;
+    display: inline-flex;
+  }
 }
 .enabled {
   display: flex;
   align-items: center;
   background-color: #f0f0f0;
-  padding: 0rem 1rem 0rem 1rem;
   border-radius: 8px;
-  margin: 0.7rem -1rem 0.7rem 0;
+  padding: 0.5rem;
 }
 
 .color-icon {
   height: 20px;
+  margin: 0.1rem;
 }
 
 .hidden {
@@ -193,7 +209,7 @@ export default {
 
 .tool-icon-container {
   display: flex;
-  padding: 0.2rem 0 0.2rem 0;
+  align-items: center;
 }
 
 .tool-selection-container {
@@ -201,7 +217,7 @@ export default {
   flex-direction: row;
 
   .tool-icon-container {
-    padding: 0 0rem 0 0.2rem;
+    // padding: 0 0rem 0 0.2rem;
   }
 }
 
