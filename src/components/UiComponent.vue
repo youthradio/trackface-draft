@@ -140,7 +140,9 @@ export default {
   methods: {
     setColor(color) {
       this.selectedColor = color;
-      this.$store.dispatch("setUIState", { selectedColor: this.selectedColor });
+      this.$store.dispatch("setUIState", {
+        selectedColor: this.selectedColor
+      });
     },
     openColorMenu() {
       this.toolState.colorPickerMenu = !this.toolState.colorPickerMenu;
@@ -170,7 +172,7 @@ export default {
     isDrawing() {
       return this.$store.state.UIState.isDrawing;
     },
-    setToolStyle: function() {
+    setToolStyle: function () {
       return {};
     }
   }

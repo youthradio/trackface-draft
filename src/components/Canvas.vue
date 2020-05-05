@@ -51,16 +51,16 @@ export default {
     }
   },
   watch: {
-    "UIState.selectedReferenceImg": function() {
+    "UIState.selectedReferenceImg": function () {
       this.clearCanvas();
       this.loadReferenceImage();
       this.loadTargeImage();
       this.updateTargetImage();
     },
-    "UIState.selectedTool": function(action) {
+    "UIState.selectedTool": function (action) {
       console.log(action);
     },
-    "UIState.selectedAction": function(action) {
+    "UIState.selectedAction": function (action) {
       console.log(action);
       if (action === "undo") {
         this.rollBack();
@@ -115,8 +115,8 @@ export default {
         loading: true
       });
       return fetch(targetImageURL)
-        .then(res => res.blob())
-        .then(targetBlob => {
+        .then((res) => res.blob())
+        .then((targetBlob) => {
           console.log(targetBlob);
           const formData = new FormData();
 
@@ -129,8 +129,8 @@ export default {
               "Content-Type": "multipart/form-data"
             }
           })
-            .then(res => res.json())
-            .then(result => {
+            .then((res) => res.json())
+            .then((result) => {
               this.$store.dispatch("setResultState", {
                 loading: false,
                 result: result,
@@ -138,7 +138,7 @@ export default {
                 refImg: this.currRefImgBlob
               });
             })
-            .catch(error => {
+            .catch((error) => {
               this.$store.dispatch("setResultState", {
                 loading: false,
                 error: error
@@ -278,8 +278,8 @@ export default {
     async loadReferenceImage() {
       const imgData = require(`../assets/${this.UIState.selectedReferenceImg.src}`);
       return fetch(imgData)
-        .then(res => res.blob())
-        .then(blob => {
+        .then((res) => res.blob())
+        .then((blob) => {
           this.currRefImgBlob = blob;
         });
     },
@@ -287,8 +287,8 @@ export default {
       const imgData = require(`../assets/${this.UIState.selectedReferenceImg.target}`);
       return new Promise((resolve, reject) => {
         return fetch(imgData)
-          .then(res => res.blob())
-          .then(blob => {
+          .then((res) => res.blob())
+          .then((blob) => {
             this.currTargetImgBlob = blob;
             const img = new Image();
             img.onload = () => resolve(img);
@@ -316,7 +316,7 @@ export default {
   },
   mounted() {
     document.addEventListener("mouseup", this.mouseEvent);
-    document.addEventListener("keydown", event => {
+    document.addEventListener("keydown", (event) => {
       if (event.code === "KeyZ" && (event.ctrlKey || event.metaKey)) {
         this.rollBack();
       }

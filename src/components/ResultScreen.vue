@@ -17,7 +17,7 @@
 export default {
   name: "ResultScreen",
   props: {},
-  data() {
+  data () {
     return {
       result: {
         canvas: null,
@@ -25,21 +25,21 @@ export default {
       }
     };
   },
-  mounted() {
+  mounted () {
     this.result.canvas = this.$refs.canvas;
     this.result.canvas.width = this.$refs.container.clientWidth;
     this.result.canvas.height = this.$refs.container.clientWidth / 2;
     this.result.ctx = this.result.canvas.getContext("2d");
   },
   watch: {
-    "testResult.loading": function() {
+    "testResult.loading": function () {
       if (!this.testResult.loading) {
         this.drawResult();
       }
     }
   },
   methods: {
-    async drawResult() {
+    async drawResult () {
       const imgs = await Promise.all([
         this.loadImage(this.testResult.refImg),
         this.loadImage(this.testResult.targetImg)
@@ -81,7 +81,7 @@ export default {
         );
       });
     },
-    loadImage(blob) {
+    loadImage (blob) {
       return new Promise((resolve, reject) => {
         const img = new Image();
         img.onload = () => resolve(img);
@@ -91,10 +91,10 @@ export default {
     }
   },
   computed: {
-    testResult() {
+    testResult () {
       return this.$store.state.testResult;
     },
-    matchesSimilarity() {
+    matchesSimilarity () {
       if (
         this.testResult.result &&
         this.testResult.result.FaceMatches.length > 0
@@ -103,7 +103,7 @@ export default {
       }
       return null;
     },
-    unmatchesSimilarity() {
+    unmatchesSimilarity () {
       if (
         this.testResult.result &&
         this.testResult.result.UnmatchedFaces.length > 0
