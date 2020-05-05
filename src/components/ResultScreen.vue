@@ -32,7 +32,7 @@ export default {
     this.result.ctx = this.result.canvas.getContext("2d");
   },
   watch: {
-    "testResult.loading": function() {
+    "testResult.loading": function () {
       if (!this.testResult.loading) {
         this.drawResult();
       }

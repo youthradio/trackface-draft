@@ -76,7 +76,7 @@ export default {
     UIState() {
       return this.$store.state.UIState;
     },
-    setToolStyle: function() {
+    setToolStyle: function () {
       return {};
     }
   }
