@@ -1,3 +1,4 @@
+.yarn
 _site
 .env
 .DS_Store

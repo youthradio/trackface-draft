@@ -7,8 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "worktree": "git checkout --orphan gh-pages && git reset --hard && git commit --allow-empty -m 'Init' && git checkout master && git worktree add _site gh-pages",
-    "generate": "npm run build && rm -rf _site/* && cp -R dist/ _site/",
-    "gh-pages": "npm run generate && mkdir -p _site && cd _site && git add . && git commit --amend --no-edit --allow-empty && git push origin gh-pages --force"
+    "generate": "yarn run build && rm -rf _site/* && cp -R dist/ _site/",
+    "gh-pages": "yarn run generate && mkdir -p _site && cd _site && git add . && git commit --amend --no-edit --allow-empty && git push origin gh-pages --force"
   },
   "dependencies": {
     "core-js": "^3.6.4",
