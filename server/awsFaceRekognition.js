@@ -1,5 +1,6 @@
 require("dotenv").config();
-const AWS = require("aws-sdk");
+const AWSXRay = require('aws-xray-sdk');
+const AWS = AWSXRay.captureAWS(require('aws-sdk'));
 
 const config = new AWS.Config({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -9,7 +10,7 @@ const config = new AWS.Config({
 
 class AWSFaceRecognition {
   constructor() {
-    this.client = new AWS.Rekognition();
+    this.client = new AWS.Rekognition({apiVersion: '2016-06-27'});
   }
 
   async compareFaces(inputImage, targetImage) {

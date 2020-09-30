@@ -6,7 +6,7 @@ const memStorage = multer.memoryStorage();
 const AWSFaceRecognition = require('./awsFaceRekognition');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
 const cors = require('cors');
-
+const AWSXRay = require('aws-xray-sdk');
 // var storage = multer.diskStorage({
 //   destination: function(req, file, cb) {
 //     cb(null, './uploads');
@@ -52,6 +52,7 @@ const upload = multer({
 ]);
 
 const app = express();
+app.use(AWSXRay.express.openSegment('FaceApp-EraseYourFace'));
 app.use(cors(corsOptions));
 app.use(awsServerlessExpressMiddleware.eventContext());
 const faceReg = new AWSFaceRecognition();
@@ -75,15 +76,16 @@ app.post('/push', async (req, res) =>
           return reject(err);
         }
         try {
+          const lastt = new Date();
           const results = await faceReg.compareFaces(
             req.files.referenceimage[0].buffer,
             req.files.targetimage[0].buffer
           );
-          console.log('Sucess: Results');
-          resolve(Object.assign(results, { error: 'success' }));
+          console.log('Sucess: Results', new Date() - lastt);
+          resolve(Object.assign(results, { error: false}));
         } catch (err) {
           console.log('Error: faceReg process', JSON.stringify(err, null, 2));
-          resolve(Object.assign({}, { error: err }));
+          resolve({ error: true});
         }
       });
     } catch (err) {
@@ -95,6 +97,7 @@ app.post('/push', async (req, res) =>
     res.json(results);
   })
 );
+app.use(AWSXRay.express.closeSegment());
 
 // const port = process.env.PORT;
 // app.listen(port, () => console.log(`Example app listening on port ${port}!`));
