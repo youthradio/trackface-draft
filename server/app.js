@@ -61,6 +61,11 @@ app.get('/', (req, res) => {
   console.log('ROOT access NOTHING HERE');
   res.send('Nothing here');
 });
+app.get('/wakeup', async (req, res) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, 1);
+  }).then(() => res.json({ yes: true }))
+);
 
 app.post('/push', async (req, res) =>
   new Promise((resolve, reject) => {
@@ -82,10 +87,10 @@ app.post('/push', async (req, res) =>
             req.files.targetimage[0].buffer
           );
           console.log('Sucess: Results', new Date() - lastt);
-          resolve(Object.assign(results, { error: false}));
+          resolve(Object.assign(results, { error: false }));
         } catch (err) {
           console.log('Error: faceReg process', JSON.stringify(err, null, 2));
-          resolve({ error: true});
+          resolve({ error: true });
         }
       });
     } catch (err) {
