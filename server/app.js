@@ -18,7 +18,7 @@ const AWSXRay = require('aws-xray-sdk');
 // });
 
 const corsOptions = {
-  origin: ['https://youthradio.github.io', 'http://localhost:3000'],
+  origin: ['https://youthradio.github.io', 'http://localhost:3000', 'https://interactive.yr.media'],
   methods: 'OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE',
   preflightContinue: false,
   optionsSuccessStatus: 204,
